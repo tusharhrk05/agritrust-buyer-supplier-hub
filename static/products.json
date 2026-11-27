@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "Wheat",
+    "farmer": "Rajesh",
+    "location": "Delhi",
+    "price": 1200,
+    "unit": "per quintal",
+    "rating": 4.5,
+    "img": "wheat1.png",
+     "certificate": "certs/wheat_straw.pdf",
+    "desc": "High quality wheat with excellent yield. Ideal for making whole wheat flour, chapatis, and baked goods. Carefully harvested from nutrient-rich soil."
+  },
+  {
+    "id": 2,
+    "name": "Wheat",
+    "farmer": "Suresh",
+    "location": "Punjab",
+    "price": 1150,
+    "unit": "per quintal",
+    "rating": 4.2,
+    "img": "wheat2.png",
+     "certificate": "certs/wheat_straw.pdf",
+    "desc": "Premium wheat grains sourced from organic farms. Suitable for whole grains, flour, and high-fiber recipes. Sun-dried for optimal freshness."
+  },
+  {
+    "id": 3,
+    "name": "Potato",
+    "category": "vegetable",
+    "farmer": "Mahesh Patel",
+    "location": "Gujarat",
+    "price": 22,
+    "unit": "per kg",
+    "rating": 4.4,
+    "img": "potato.png",
+    "certificate": "certs/potato.pdf",
+    "desc": "Fresh farm-grown potatoes with long shelf life. Suitable for hotels, shops, and distributors."
+  },
+  {
+    "id": 4,
+    "name": "Onion",
+    "category": "vegetable",
+    "farmer": "Rohit Jadhav",
+    "location": "Maharashtra",
+    "price": 28,
+    "unit": "per kg",
+    "rating": 4.6,
+    "img": "onion.png",
+    "certificate": "certs/onion.pdf",
+    "desc": "Organically grown onions with strong aroma and quality suitable for bulk purchase."
+  },
+  {
+    "id": 5,
+    "name": "Sugarcane",
+    "category": "commercial",
+    "farmer": "Dinesh Yadav",
+    "location": "Uttar Pradesh",
+    "price": 340,
+    "unit": "per quintal",
+    "rating": 4.3,
+    "img": "sugar.png",
+    "certificate": "certs/sugarcane.pdf",
+    "desc": "Freshly harvested sugarcane ideal for jaggery makers and sugar mills."
+  }
+]

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-text="login_title">AgriTrust Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+
+            <div class="logo">
+                <img src="static/logo.png" alt="AgriTrust Logo">
+            </div>
+
+            <h2 class="welcome-message" data-text="welcome_back">Welcome Back!</h2>
+            <p class="subtitle" data-text="secure_login">Securely login to your AgriTrust account.</p>
+
+            <form id="loginForm" method="POST" action="/login">
+
+                <div class="form-group">
+                    <label for="username" data-text="email_username">Email / Username</label>
+                    <input type="text" id="username" name="username"
+                        placeholder="Enter your email or username"
+                        data-placeholder="enter_email_username"
+                        required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-text="password">Password</label>
+                    <input type="password" id="password" name="password"
+                        placeholder="Enter your password"
+                        data-placeholder="enter_password"
+                        required>
+                </div>
+
+                <div class="options-row">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember" data-text="remember_me">Remember Me</label>
+                    </div>
+                    <a href="#" class="forgot-password" data-text="forgot_password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-button" data-text="login_btn">Login</button>
+            </form>
+
+            <div class="signup-link">
+                <p>
+                    <span data-text="new_here">New to AgriTrust?</span>
+                    <a href="/signup" data-text="sign_up">Sign Up</a>
+                </p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+        </div>
+    </div>
+
+    <!-- Translation Script -->
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+
+</body>
+</html>

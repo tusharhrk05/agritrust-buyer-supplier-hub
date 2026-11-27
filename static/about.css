@@ -1,0 +1,477 @@
+/* --- Global & Variables --- */
+:root {
+  --primary: #17cf17;
+  --background-light: #f6f8f6;
+  --background-dark: #112111;
+  --text-light: #334155;
+  --text-dark: #e2e8f0;
+  --slate-200: #e2e8f0;
+  --slate-400: #94a3b8;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+}
+
+/* --- Base Styles --- */
+body {
+  font-family: 'Public Sans', sans-serif;
+  color: var(--slate-800);
+  background-color: var(--background-light);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark {
+  background-color: var(--background-dark);
+  color: var(--slate-200);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 5, 'wght' 500, 'GRAD' 5, 'opsz' 24;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.page-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+/* --- Header --- */
+.header {
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid var(--slate-200);
+  background-color: rgba(246, 248, 246, 0.8);
+}
+
+.dark .header {
+  border-color: var(--slate-800);
+  background-color: rgba(17, 33, 17, 0.8);
+}
+
+.header-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container {
+    padding: 0 2rem;
+  }
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.agri-logo {
+  height: 150px; /* Adjust the height to your preference */
+  width: auto; /* This maintains the aspect ratio */
+}
+
+.dark .header-title {
+  color: #fff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* --- Buttons --- */
+.btn {
+  border-radius: 1rem;
+  padding: 0.9rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--primary);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-mobile-menu {
+  display: block;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.btn-mobile-menu span {
+  color: var(--slate-800);
+}
+
+.dark .btn-mobile-menu span {
+  color: var(--slate-200);
+}
+
+@media (min-width: 768px) {
+  .btn-mobile-menu {
+    display: none;
+  }
+}
+
+/* --- Section Layouts --- */
+.content-wrapper {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .content-wrapper {
+    padding: 4rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-wrapper {
+    padding: 6rem 2rem;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--primary);
+}
+
+.section-subtitle {
+  margin-top: 0.5rem;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--slate-900);
+}
+
+.dark .section-subtitle {
+  color: #fff;
+}
+
+@media (min-width: 640px) {
+  .section-subtitle {
+    font-size: 3rem;
+  }
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.dark .section-title {
+  color: #fff;
+}
+
+/* --- Section Spacing --- */
+.story-section {
+  margin-top: 4rem;
+}
+
+.values-section {
+  margin-top: 5rem;
+}
+
+.team-section {
+  margin-top: 5rem;
+}
+
+.impact-section {
+  margin-top: 5rem;
+}
+
+/* --- Typography --- */
+.section-intro-text {
+  font-size: 1.125rem;
+  line-height: 1.625;
+  color: var(--slate-600);
+}
+
+.dark .section-intro-text {
+  color: var(--slate-400);
+}
+
+.card-title {
+  margin-top: 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--slate-900);
+}
+
+.dark .card-title {
+  color: #fff;
+}
+
+.card-text {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--slate-600);
+}
+
+.dark .card-text {
+  color: var(--slate-400);
+}
+
+.card-role {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+/* --- Card Grids & Styles --- */
+.values-grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+.team-grid {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+}
+
+.impact-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .impact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .values-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .team-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.value-card {
+  text-align: center;
+}
+
+.icon-container {
+  height: 4rem;
+  width: 4rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: rgba(23, 207, 23, 0.2);
+}
+
+.dark .icon-container {
+  background-color: rgba(23, 207, 23, 0.3);
+}
+
+.icon-main {
+  font-size: 2.25rem;
+  color: var(--primary);
+}
+
+/* Styles for the Team Member Card (Basic Structure) */
+.team-member-card {
+  text-align: center;
+  padding: 20px;
+  /* Add other styling for the card itself (e.g., border, background) */
+}
+
+/* Styling for the circular container */
+.image-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 15px; 
+  overflow: hidden;
+  border-radius: 50%; /* Makes the container circular */
+  border: 4px solid #4CAF50; /* Example border color */
+  /* Remove flex centering if you only use images, or keep for consistency */
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+/* Styling for the actual image */
+.member-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover; /* **Crucial:** Ensures the image fills the circle without stretching */
+  border-radius: 50%; /* Ensures the image itself is masked as a circle */
+}
+
+.dark .image-container {
+  background-color: var(--slate-700);
+}
+
+.icon-placeholder {
+  font-size: 4rem;
+  color: var(--slate-400);
+}
+
+.dark .icon-placeholder {
+  color: #94a3b8;
+}
+
+.impact-card {
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--slate-200);
+  text-align: center;
+}
+
+.dark .impact-card {
+  background-color: var(--background-dark);
+  border-color: var(--slate-800);
+}
+
+.impact-count {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.impact-text {
+  margin-top: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--slate-700);
+}
+
+.dark .impact-text {
+  color: var(--slate-400);
+}
+
+/* --- Footer --- */
+.footer {
+  border-top: 1px solid var(--slate-200);
+  background-color: var(--background-light);
+  padding: 2rem 0;
+}
+
+.dark .footer {
+  border-color: var(--slate-800);
+  background-color: var(--background-dark);
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .footer-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-container {
+    padding: 0 2rem;
+  }
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+}
+
+.footer-link {
+  font-size: 0.875rem;
+  color: var(--slate-600);
+  transition: color 0.2s;
+}
+
+.dark .footer-link {
+  color: var(--slate-400);
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+.footer-copyright {
+  font-size: 0.875rem;
+  color: var(--slate-600);
+}
+
+.dark .footer-copyright {
+  color: var(--slate-400);
+}

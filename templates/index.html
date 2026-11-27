@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-text="page_title">AgriTrust - Empowering Farmers, Cultivating Prosperity</title>
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+<div class="layout-container">
+    <header class="header">
+        <div class="header-logo">
+            <img src="static/logo.png" alt="AgriTrust Logo" class="agri-logo">
+        </div>
+
+        <nav class="header-nav">
+            <a href="#problems" data-text="nav_challenges">Challenges</a>
+            <a href="#features" data-text="nav_pillars">Pillars</a>
+            <a href="#how-it-works" data-text="nav_how">How It Works</a>
+            <a href="#testimonials" data-text="nav_testimonials">Testimonials</a>
+            <a href="#faq" data-text="nav_faq">FAQ</a>
+        </nav>
+
+        <div class="header-right">
+    <select id="langSwitcher">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+    </select>
+
+    <div class="header-buttons">
+        <a href="{{ url_for('landing') }}" class="btn btn-primary">Explore AgriTrust</a>
+        <button class="btn btn-secondary" data-text="btn_learn_more">Learn More</button>
+    </div>
+</div>
+
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title" data-text="hero_title">Empowering Farmers, Transforming Agriculture</h1>
+
+                <p class="hero-subtitle" data-text="hero_subtitle">
+                    A unified digital platform ensuring fair pricing, sustainable practices, and financial security for every farmer.
+                </p>
+            </div>
+            <div class="hero-buttons">
+                <a href="{{ url_for('landing') }}" class="btn btn-primary">Explore AgriTrust</a>
+                <button class="btn btn-hero-secondary" data-text="btn_learn_more">Learn More</button>
+            </div>
+        </section>
+
+        <!-- PROBLEMS -->
+        <section class="section-container" id="problems">
+            <div class="content-wrapper">
+                <h2 class="section-title" data-text="section_challenges_title">Solving India's Agricultural Challenges, Together</h2>
+
+                <div class="card-grid">
+                    <div class="card problem-card">
+                        <span class="material-symbols-outlined icon-red">groups</span>
+                        <h3 class="card-title" data-text="problem_1_title">Middlemen Exploitation</h3>
+                        <p class="card-description" data-text="problem_1_desc">
+                            AgriTrust ensures fair and transparent pricing, eliminating exploitation by intermediaries.
+                        </p>
+                    </div>
+
+                    <div class="card problem-card">
+                        <span class="material-symbols-outlined icon-orange">compost</span>
+                        <h3 class="card-title" data-text="problem_2_title">Wasted Residue</h3>
+                        <p class="card-description" data-text="problem_2_desc">
+                            AgriTrust transforms agricultural waste into valuable resources, promoting sustainability.
+                        </p>
+                    </div>
+
+                    <div class="card problem-card">
+                        <span class="material-symbols-outlined icon-yellow">trending_down</span>
+                        <h3 class="card-title" data-text="problem_3_title">Low Value for Produce</h3>
+                        <p class="card-description" data-text="problem_3_desc">
+                            AgriTrust adds value to produce through processing and direct market access, increasing farmer income.
+                        </p>
+                    </div>
+
+                    <div class="card problem-card">
+                        <span class="material-symbols-outlined icon-blue">thunderstorm</span>
+                        <h3 class="card-title" data-text="problem_4_title">Weather Risks</h3>
+                        <p class="card-description" data-text="problem_4_desc">
+                            AgriTrust provides robust insurance and weather protection, mitigating risks for farmers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="section-container section-light" id="features">
+            <div class="content-wrapper">
+                <h2 class="section-title" data-text="section_pillars_title">The AgriTrust Pillars</h2>
+                <div class="card-grid">
+                    <div class="card feature-card">
+                        <h3 class="card-title" data-text="pillar_1_title">Transparent Pricing</h3>
+                        <p class="card-description" data-text="pillar_1_desc">
+                            Fair and transparent pricing ensures farmers receive the true value of their produce.
+                        </p>
+                    </div>
+
+                    <div class="card feature-card">
+                        <h3 class="card-title" data-text="pillar_2_title">Residue to Resource</h3>
+                        <p class="card-description" data-text="pillar_2_desc">
+                            Agricultural waste is transformed into useful products, creating extra income.
+                        </p>
+                    </div>
+
+                    <div class="card feature-card">
+                        <h3 class="card-title" data-text="pillar_3_title">Value Addition</h3>
+                        <p class="card-description" data-text="pillar_3_desc">
+                            Crops are converted into valuable finished goods, increasing profits.
+                        </p>
+                    </div>
+
+                    <div class="card feature-card">
+                        <h3 class="card-title" data-text="pillar_4_title">Risk Protection</h3>
+                        <p class="card-description" data-text="pillar_4_desc">
+                            Insurance & weather protection safeguard farmers from losses.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+  <section class="section-container" id="how-it-works">
+            <div class="content-wrapper">
+                <h2 class="section-title">How It Works</h2>
+                <div class="how-it-works-grid">
+                    <div class="step-card">
+                        <div class="step-line-vertical"></div>
+                        <div class="step-icon-circle">
+                            <span class="material-symbols-outlined icon-primary">person_add</span>
+                        </div>
+                        <div class="step-text">
+                            <p class="step-title">1. Register</p>
+                            <p class="step-description">Create your AgriTrust account.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-line-vertical"></div>
+                        <div class="step-icon-circle">
+                            <span class="material-symbols-outlined icon-primary">handshake</span>
+                        </div>
+                        <div class="step-text">
+                            <p class="step-title">2. Connect</p>
+                            <p class="step-description">Connect with buyers and suppliers.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-line-vertical"></div>
+                        <div class="step-icon-circle">
+                            <span class="material-symbols-outlined icon-primary">paid</span>
+                        </div>
+  <div class="step-text">
+                            <p class="step-title">3. Transact</p>
+                            <p class="step-description">Engage in secure transactions.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-line-vertical"></div>
+                        <div class="step-icon-circle">
+                            <span class="material-symbols-outlined icon-primary">trending_up</span>
+                        </div>
+                        <div class="step-text">
+                            <p class="step-title">4. Prosper</p>
+                            <p class="step-description">Grow your income and security.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+   <section class="section-container section-gray" id="testimonials">
+            <div class="content-wrapper">
+                <h2 class="section-title">Impact Stories</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" style="background-image: url('/static/rajesh.jpeg')"></div>
+                            <div>
+                                <p class="testimonial-name">Rajesh Sharma</p>
+                                <p class="testimonial-role">Wheat Farmer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"AgriTrust has revolutionized my farming business. The transparent pricing and direct market access have significantly increased my income."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" style="background-image: url('/static/lady.jpg')"></div>
+                            <div>
+                                <p class="testimonial-name">Priya Verma</p>
+                                <p class="testimonial-role">Cotton Farmer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Thanks to AgriTrust, I no longer worry about weather risks. Their insurance coverage has provided me with peace of mind."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" style="background-image: url('/static/person.jpeg')"></div>
+                            <div>
+     <p class="testimonial-name">Amit Patel</p>
+                                <p class="testimonial-role">Vegetable Farmer</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"AgriTrust's support for sustainable practices has not only helped the environment but also improved the quality of my produce."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+ <section class="faq-section" id="faq">
+            <div class="faq-container">
+                <h2 class="faq-title">
+                    Frequently Asked Questions
+                </h2>
+                
+                <div class="faq-accordion" x-data="{ openId: null }">
+                    
+                    <div class="faq-item">
+                        <button @click="openId = (openId === 1 ? null : 1)" class="faq-question">
+                            <span>What is AgriTrust and how does it help farmers?</span>
+                            <span :class="{ 'rotate-180': openId === 1 }" class="material-symbols-outlined faq-icon">expand_more</span>
+                        </button>
+                        <div class="faq-answer" x-show="openId === 1" x-transition>
+                            AgriTrust is an integrated digital platform that connects farmers directly with buyers, food processors, and exporters. It ensures fair pricing by eliminating middlemen, provides access to markets, and offers services like logistics, quality testing, and financial support, thereby increasing farmer income and stability.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button @click="openId = (openId === 2 ? null : 2)" class="faq-question">
+                            <span>How does AgriTrust promote sustainable agriculture?</span>
+                            <span :class="{ 'rotate-180': openId === 2 }" class="material-symbols-outlined faq-icon">expand_more</span>
+                        </button>
+  <div class="faq-answer" x-show="openId === 2" x-transition>
+                            Our platform encourages sustainable practices by providing farmers with access to information on organic farming, water conservation, and soil health management. We also have a "Residue to Resource" program that helps farmers convert agricultural waste into valuable products like bio-fuels and organic fertilizers, creating an additional revenue stream and reducing environmental pollution.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button @click="openId = (openId === 3 ? null : 3)" class="faq-question">
+                            <span>Is there a fee for farmers to join AgriTrust?</span>
+                            <span :class="{ 'rotate-180': openId === 3 }" class="material-symbols-outlined faq-icon">expand_more</span>
+                        </button>
+                        <div class="faq-answer" x-show="openId === 3" x-transition>
+                            Registration on the AgriTrust platform is completely free for farmers. We believe in empowering the farming community without imposing upfront financial burdens. Our revenue model is based on a small, transparent commission on successful transactions, ensuring we only succeed when our farmers do.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button @click="openId = (openId === 4 ? null : 4)" class="faq-question">
+                            <span>How does AgriTrust protect farmers from market and weather risks?</span>
+                            <span :class="{ 'rotate-180': openId === 4 }" class="material-symbols-outlined faq-icon">expand_more</span>
+                        </button>
+  <div class="faq-answer" x-show="openId === 4" x-transition>
+                            AgriTrust mitigates market risks through long-term contracts with buyers and price-locking mechanisms. For weather-related risks, we have partnered with leading insurance companies to offer tailored crop insurance products. Additionally, our platform provides real-time weather forecasts and advisories to help farmers take preventive measures.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        <!-- CTA -->
+        <section class="section-container cta-section">
+            <div class="content-wrapper">
+                <h2 class="cta-title" data-text="cta_title">Transforming Agriculture, One Farmer at a Time</h2>
+                <button class="btn btn-cta" data-text="btn_get_started">Get Started Today</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-heading" data-text="footer_solutions">Solutions</h3>
+                    <ul class="footer-links">
+                        <li><a href="#problems" data-text="nav_challenges">Challenges</a></li>
+                        <li><a href="#features" data-text="nav_pillars">Pillars</a></li>
+                        <li><a href="#how-it-works" data-text="nav_how">How It Works</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading" data-text="footer_agritrust">AGRI-TRUST</h3>
+                    <ul class="footer-links">
+                        <li><a href="#contact.html" data-text="footer_contact">Contact</a></li>
+                        <li><a href="#team.html" data-text="footer_team">Our Team</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading" data-text="footer_legal">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-text="footer_privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-text="footer_terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p data-text="footer_copy">© 2025 AgriTrust. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+
+</body>
+</html>

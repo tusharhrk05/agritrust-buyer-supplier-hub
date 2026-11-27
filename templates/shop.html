@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AgriTrust Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --brand:#b68c58;
+  --green:#2e7d32;
+  --bg:#f6f5f1;
+  --card:#fff;
+  --muted:#6b6b6b;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:#222;}
+.top-bar{background:#222;color:#fff;text-align:center;padding:8px 0;font-size:14px;}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 38px;background:#fff;box-shadow:0 3px 12px rgba(19,19,19,0.04);position:sticky;top:0;z-index:50;}
+.logo img{height:46px;}
+.header-right{display:flex;align-items:center;gap:18px;}
+.search-box{display:flex;align-items:center;background:#fff;padding:8px 12px;border-radius:999px;border:1px solid #eee;width:420px;}
+.search-box input{border:0;outline:0;font-size:15px;width:100%;}
+
+.container{max-width:1250px;margin:36px auto;padding:0 20px;display:flex;gap:30px;}
+.sidebar{flex:0 0 220px;background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
+.sidebar h3{margin:0 0 12px 0;font-size:18px;}
+.sidebar ul{list-style:none;padding:0;margin:0;}
+.sidebar li{padding:10px 6px;border-bottom:1px solid #f0f0f0;cursor:pointer;color:#333;}
+.sidebar li:hover{color:var(--brand);padding-left:6px;}
+.main{flex:1;}
+.top-section{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.top-section h2{margin:0;font-size:24px;}
+.select{padding:8px 12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff;}
+
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;}
+.product-card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.04);transition:transform .18s ease;position:relative;}
+.product-card:hover{transform:translateY(-6px);}
+.product-media{height:220px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;}
+.product-media img{max-width:100%;max-height:100%;object-fit:cover;width:100%;}
+.product-body{padding:14px;}
+.product-body h4{margin:0 0 8px;font-size:17px;}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:10px;}
+.price{font-weight:700;color:#111;margin-bottom:8px;}
+.grid-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.btn{padding:10px;border-radius:8px;border:0;cursor:pointer;font-size:14px;}
+.btn-primary{background:var(--green);color:#fff;flex:1;}
+.btn-outline{background:#fff;border:1px solid #ddd;color:#333;flex:1;}
+.btn-compare{background:var(--brand);color:#fff;flex:1;}
+
+/* Compare panel */
+#comparePanel{display:none;position:sticky;top:60px;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,0.1);padding:10px;z-index:100;align-items:center;gap:10px;overflow-x:auto;}
+#comparePanelItems{display:flex;gap:10px;}
+.compare-card{position:relative;}
+.compare-card img{width:60px;height:60px;object-fit:cover;border-radius:8px;display:block;}
+.compare-card span{position:absolute;top:-6px;right:-6px;background:red;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+#comparePanelBtn{margin-left:auto;padding:6px 12px;border:0;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer;}
+
+/* Compare Table Modal */
+#compareTable{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:200;}
+#compareTableContent{background:#fff;padding:20px;border-radius:12px;max-width:95%;overflow:auto;}
+#compareTable table{width:100%;border-collapse:collapse;}
+#compareTable th, #compareTable td{border:1px solid #ddd;padding:8px;text-align:center;}
+#compareTable th{background:#f3f3f3;font-weight:600;}
+#compareTable .closeBtn{cursor:pointer;background:red;color:#fff;padding:4px 8px;border:none;border-radius:4px;float:right;}
+.cart-drawer{position:fixed;right:0;top:0;height:100vh;width:min(380px,92vw);background:#fff;box-shadow:-6px 0 22px rgba(0,0,0,.16);z-index:300;padding:20px;transform:translateX(110%);transition:transform .2s ease;overflow:auto;}
+.cart-drawer.open{transform:translateX(0);}
+.cart-header{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:18px;}
+.cart-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eee;}
+.cart-total{font-weight:700;margin:18px 0;}
+.cart-drawer button{cursor:pointer;border:0;border-radius:7px;padding:9px 12px;}
+.cart-checkout{background:var(--green);color:#fff;width:100%;}
+.cart-toggle{border:0;border-radius:8px;padding:10px 14px;background:var(--green);color:#fff;cursor:pointer;white-space:nowrap;}
+
+@media(max-width:900px){
+  .container{flex-direction:column;padding:12px;}
+  .sidebar{order:2;width:100%;}
+  .main{order:1;}
+  .search-box{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">✨ AgriTrust — Trusted farm produce direct from farmers</div>
+<header>
+  <div class="logo"><img src="/static/logo.png" alt="AgriTrust"></div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="search-box"><input id="searchInput" placeholder="Search crops, seeds, powders..." /></div>
+    <button class="cart-toggle" id="cartToggle">Cart (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<!-- Compare Panel -->
+<div id="comparePanel">
+  <span style="font-weight:600;">Compare:</span>
+  <div id="comparePanelItems"></div>
+  <button id="comparePanelBtn">Compare Now</button>
+</div>
+
+<aside id="cartDrawer" class="cart-drawer" aria-label="Shopping cart">
+  <div class="cart-header"><span>Your cart</span><button id="closeCart">Close</button></div>
+  <div id="cartItems"></div>
+  <p class="cart-total">Total: ₹<span id="cartTotal">0.00</span></p>
+  <button class="cart-checkout" id="checkoutCart">Request order</button>
+</aside>
+
+<div class="container">
+  <aside class="sidebar">
+    <h3>Browse by</h3>
+    <ul id="browseList">
+      <li data-cat="all" class="active">All Products</li>
+      <li data-cat="foodgrain">Foodgrains</li>
+      <li data-cat="vegetable">Vegetables</li>
+      <li data-cat="seed">Seeds</li>
+      <li data-cat="commercial">Commercial</li>
+    </ul>
+    <div style="margin-top:16px">
+      <h3>Filters</h3>
+      <label>Max Price (₹)</label>
+      <input id="priceRange" type="range" min="0" max="5000" value="5000" style="width:100%">
+      <div style="text-align:right;font-size:13px;color:#666">≤ ₹<span id="priceRangeVal">5000</span></div>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="top-section">
+      <h2 id="pageTitle">All Products</h2>
+      <select id="sortSelect" class="select">
+        <option value="popular">Sort: Popular</option>
+        <option value="price_low">Price: Low to High</option>
+        <option value="price_high">Price: High to Low</option>
+        <option value="rating">Rating</option>
+      </select>
+    </div>
+    <section class="products" id="productGrid"></section>
+  </main>
+</div>
+
+<!-- Compare Table Modal -->
+<div id="compareTable">
+  <div id="compareTableContent">
+    <button class="closeBtn" onclick="closeCompareTable()">× Close</button>
+    <h3>Comparison Table</h3>
+    <table id="compareTableBody"></table>
+  </div>
+</div>
+
+<script>
+let products = [], filtered = [], compareList = [], cart = [];
+
+const productGrid = document.getElementById('productGrid');
+const searchInput = document.getElementById('searchInput');
+const browseList = document.getElementById('browseList');
+const priceRange = document.getElementById('priceRange');
+const priceRangeVal = document.getElementById('priceRangeVal');
+const pageTitle = document.getElementById('pageTitle');
+const comparePanel = document.getElementById('comparePanel');
+const comparePanelItems = document.getElementById('comparePanelItems');
+const comparePanelBtn = document.getElementById('comparePanelBtn');
+const compareTable = document.getElementById('compareTable');
+const compareTableBody = document.getElementById('compareTableBody');
+
+fetch('/static/products.json')
+.then(r=>r.json())
+.then(data=>{
+  const farmerListings = {{ produce_listings|tojson }}.map(item => {
+    const crop = (item.crop_type || 'Produce').toLowerCase();
+    const category = /potato|onion|vegetable|fruit/.test(crop) ? 'vegetable' : (/sugarcane|cotton/.test(crop) ? 'commercial' : 'foodgrain');
+    return {
+      id: -item.id,
+      name: `${item.crop_type || 'Produce'}${item.variety ? ` — ${item.variety}` : ''}`,
+      farmer: 'AgriTrust farmer',
+      location: item.location || 'Location on request',
+      price: Number(item.price) || 0,
+      unit: 'per quintal',
+      rating: 4,
+      img: item.images && item.images.length ? item.image_urls[0].replace('/static/', '') : 'logo.png',
+      certificate: item.certificate ? `uploads/${item.certificate}` : '',
+      category,
+      desc: `${item.quantity || 'Available'} quintals${item.description ? ` — ${item.description}` : ''}`
+    };
+  });
+  products=[...data, ...farmerListings];
+  filtered=[...products];
+  renderProducts(filtered);
+})
+.catch(err=>{ productGrid.innerHTML='<div style="padding:30px;color:#666">Could not load products.</div>'; console.error(err); });
+
+function renderProducts(list){
+  productGrid.replaceChildren();
+  if(!list.length){ productGrid.textContent='No products match filters.'; return; }
+  list.forEach(p=>{
+    const card=document.createElement('article');
+    card.className='product-card';
+    const media=document.createElement('div');
+    media.className='product-media';
+    const image=document.createElement('img');
+    image.src=`/static/${p.img || 'logo.png'}`;
+    image.alt=p.name;
+    media.appendChild(image);
+    const body=document.createElement('div');
+    body.className='product-body';
+    const title=document.createElement('h4');
+    title.textContent=p.name;
+    const meta=document.createElement('div');
+    meta.className='meta';
+    const category=document.createElement('div');
+    category.textContent=p.category || 'Produce';
+    const rating=document.createElement('div');
+    rating.textContent=`${p.rating || 0} ★`;
+    meta.append(category,rating);
+    const price=document.createElement('div');
+    price.className='price';
+    price.textContent=`₹${p.price} ${p.unit || ''}`;
+    const location=document.createElement('div');
+    location.style.cssText='color:#666;font-size:13px;margin:8px 0';
+    location.textContent=p.location || 'Location on request';
+    const actions=document.createElement('div');
+    actions.className='grid-actions';
+    const button=(label,style,handler)=>{
+      const element=document.createElement('button');
+      element.className=`btn ${style}`;
+      element.textContent=label;
+      element.addEventListener('click',handler);
+      return element;
+    };
+    actions.append(
+      button('View','btn-outline',()=>viewDetails(p.id)),
+      button('Certificate','btn-outline',()=>viewCertificate(p.certificate)),
+      button('Add to Compare','btn-compare',()=>addToCompare(p.id)),
+      button('Request Purchase','btn-primary',()=>addToCart(p.id))
+    );
+    body.append(title,meta,price,location,actions);
+    card.append(media,body);
+    productGrid.appendChild(card);
+  });
+}
+
+async function viewCertificate(pdfPath){
+  if(!pdfPath || pdfPath === 'undefined') return alert('No certificate available.');
+  const certificateUrl = '/static/' + pdfPath;
+  const response = await fetch(certificateUrl, { method: 'HEAD' });
+  if(response.ok) window.open(certificateUrl, '_blank', 'noopener');
+  else alert('The certificate file is not available.');
+}
+
+
+function applyFilters(){
+  const q=searchInput.value.trim().toLowerCase();
+  const cat=(document.querySelector('#browseList li.active')||{dataset:{cat:'all'}}).dataset.cat||'all';
+  const priceMax=Number(priceRange.value);
+  const sortBy=document.getElementById('sortSelect').value;
+  filtered = products.filter(p=>{
+    const matchesQuery=!q||p.name.toLowerCase().includes(q)||(p.desc&&p.desc.toLowerCase().includes(q));
+    const matchesCat=cat==='all'||p.category===cat;
+    const matchesPrice=Number(p.price)<=priceMax;
+    return matchesQuery && matchesCat && matchesPrice;
+  });
+  if(sortBy==='price_low') filtered.sort((a,b)=>a.price-b.price);
+  if(sortBy==='price_high') filtered.sort((a,b)=>b.price-a.price);
+  if(sortBy==='rating') filtered.sort((a,b)=>b.rating-b.rating);
+  renderProducts(filtered);
+}
+
+searchInput.addEventListener('input',applyFilters);
+priceRange.addEventListener('input',()=>{ priceRangeVal.textContent=priceRange.value; applyFilters(); });
+document.getElementById('sortSelect').addEventListener('change',applyFilters);
+browseList.querySelectorAll('li').forEach(li=>{
+  li.addEventListener('click', ()=>{
+    browseList.querySelectorAll('li').forEach(x=>x.classList.remove('active'));
+    li.classList.add('active');
+    pageTitle.textContent=li.textContent;
+    applyFilters();
+  });
+});
+
+function addToCompare(id){
+  if(!compareList.includes(id)) compareList.push(id);
+  renderComparePanel();
+}
+
+function removeFromComparePanel(id){
+  compareList = compareList.filter(x=>x!==id);
+  renderComparePanel();
+}
+
+function renderComparePanel(){
+  if(compareList.length===0){ comparePanel.style.display='none'; return; }
+  comparePanel.style.display='flex';
+  comparePanelItems.innerHTML='';
+  const productsToCompare = products.filter(p=>compareList.includes(p.id));
+  productsToCompare.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='compare-card';
+    div.innerHTML=`<img src="/static/${p.img}"><span onclick="removeFromComparePanel(${p.id})">×</span>`;
+    comparePanelItems.appendChild(div);
+  });
+}
+
+comparePanelBtn.addEventListener('click',()=>{
+  if(compareList.length<2) return alert('Select at least 2 products to compare');
+  renderCompareTableContent();
+  compareTable.style.display='flex';
+});
+
+function addToCart(id){
+  const product = products.find(item => item.id === id);
+  if(!product) return;
+  const existing = cart.find(item => item.id === id);
+  if(existing) existing.qty += 1;
+  else cart.push({...product, qty:1, category:'produce'});
+  renderCart();
+  document.getElementById('cartDrawer').classList.add('open');
+}
+
+function renderCart(){
+  const container = document.getElementById('cartItems');
+  container.replaceChildren();
+  let total = 0;
+  cart.forEach(item => {
+    total += Number(item.price) * item.qty;
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    const label = document.createElement('span');
+    label.textContent = `${item.name} × ${item.qty} — ₹${item.price}`;
+    const remove = document.createElement('button');
+    remove.textContent = 'Remove';
+    remove.addEventListener('click', () => { cart = cart.filter(entry => entry.id !== item.id); renderCart(); });
+    row.append(label, remove);
+    container.appendChild(row);
+  });
+  document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartTotal').textContent = total.toFixed(2);
+}
+
+document.getElementById('cartToggle').addEventListener('click', () => document.getElementById('cartDrawer').classList.add('open'));
+document.getElementById('closeCart').addEventListener('click', () => document.getElementById('cartDrawer').classList.remove('open'));
+document.getElementById('checkoutCart').addEventListener('click', async () => {
+  if(!cart.length) return alert('Your cart is empty.');
+  const response = await fetch('/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items:cart}) });
+  const result = await response.json();
+  if(!response.ok || !result.success) return alert(result.error || 'Order request failed.');
+  alert(`Order request ${result.receipt} was saved. Payment and delivery can be arranged directly.`);
+  cart = [];
+  renderCart();
+  document.getElementById('cartDrawer').classList.remove('open');
+});
+
+function renderCompareTableContent(){
+  const productsToCompare = products.filter(p=>compareList.includes(p.id));
+  if(productsToCompare.length<2) return;
+
+  const attributes = ['Image', 'Name', 'Category', 'Price', 'Unit', 'Rating', 'Location', 'Description', 'Certificate'];
+  compareTableBody.replaceChildren();
+  const header = document.createElement('tr');
+  const labelHeader = document.createElement('th');
+  labelHeader.textContent = 'Attribute';
+  header.appendChild(labelHeader);
+  productsToCompare.forEach(product => {
+    const cell = document.createElement('th');
+    cell.textContent = product.name;
+    header.appendChild(cell);
+  });
+  compareTableBody.appendChild(header);
+
+  attributes.forEach(attribute => {
+    const row = document.createElement('tr');
+    const label = document.createElement('td');
+    label.textContent = attribute;
+    label.style.fontWeight = '600';
+    row.appendChild(label);
+    productsToCompare.forEach(product => {
+      const cell = document.createElement('td');
+      if(attribute === 'Image') {
+        const image = document.createElement('img');
+        image.src = `/static/${product.img || 'logo.png'}`;
+        image.alt = product.name;
+        image.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px';
+        cell.appendChild(image);
+      } else if(attribute === 'Certificate') {
+        if(product.certificate) {
+          const link = document.createElement('button');
+          link.textContent = 'View PDF';
+          link.addEventListener('click', () => viewCertificate(product.certificate));
+          cell.appendChild(link);
+        } else cell.textContent = 'N/A';
+      } else {
+        const values = {
+          Name: product.name,
+          Category: product.category,
+          Price: `₹${product.price}`,
+          Unit: product.unit,
+          Rating: `⭐ ${product.rating || 0}`,
+          Location: product.location,
+          Description: product.desc
+        };
+        cell.textContent = values[attribute] || '';
+      }
+      row.appendChild(cell);
+    });
+    compareTableBody.appendChild(row);
+  });
+}
+
+function closeCompareTable(){ compareTable.style.display='none'; }
+
+function viewDetails(id){
+  const p=products.find(x=>x.id===id);
+  if(!p) return;
+  alert(`Name: ${p.name}\nCategory: ${p.category}\nPrice: ₹${p.price}\nUnit: ${p.unit}\nRating: ${p.rating}\nLocation: ${p.location}\nDescription: ${p.desc}`);
+}
+
+(function(){ priceRangeVal.textContent=priceRange.value; })();
+</script>
+</body>
+</html>

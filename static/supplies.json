@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "name": "Wheat Seeds",
+    "category": "seeds",
+    "price": 200,
+    "description": "High-quality wheat seeds suitable for all soil types, ensuring healthy crop growth and high yield.",
+    "image": "https://tse4.mm.bing.net/th/id/OIP.ijo8WeYY7AWG15bxISkFQQHaE8?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 2,
+    "name": "Rice Seeds",
+    "category": "seeds",
+    "price": 250,
+    "description": "Premium rice seeds for high productivity and disease resistance.",
+    "image": "https://tse3.mm.bing.net/th/id/OIP.CT66XWhsV-ZolQAiXX6jwQHaE8?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 3,
+    "name": "Corn Seeds",
+    "category": "seeds",
+    "price": 220,
+    "description": "Quality corn seeds for better growth and higher kernel yield.",
+    "image": "https://tse1.mm.bing.net/th/id/OIP.nauwsfji_FM9GTD1WH5XjgHaEK?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 4,
+    "name": "Urea Fertilizer",
+    "category": "fertilizers",
+    "price": 500,
+    "description": "Nitrogen-rich fertilizer ideal for wheat, rice, and corn crops to boost growth.",
+    "image": "https://tse4.mm.bing.net/th/id/OIP.ns5hBLEy1MxNOyVNMMYhmAHaE8?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 5,
+    "name": "DAP Fertilizer",
+    "category": "fertilizers",
+    "price": 600,
+    "description": "Diammonium phosphate fertilizer for balanced nutrient supply and enhanced crop productivity.",
+    "image": "https://tse1.mm.bing.net/th/id/OIP.brO6ivL8t7wFEGlf3OL72QHaEl?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 6,
+    "name": "Potash Fertilizer",
+    "category": "fertilizers",
+    "price": 450,
+    "description": "Potassium-rich fertilizer for stronger plants and better fruit/grain quality.",
+    "image": "https://tse3.mm.bing.net/th/id/OIP.7jyGnkYRDthwJrKmKvpvLAHaE8?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 7,
+    "name": "Tomato Seeds",
+    "category": "seeds",
+    "price": 180,
+    "description": "Certified tomato seeds for high-yielding and disease-resistant plants.",
+    "image": "https://tse3.mm.bing.net/th/id/OIP.rONibx20uhymfTN6WJPZ0wHaEK?pid=Api&P=0&h=180"
+  },
+  {
+    "id": 8,
+    "name": "Organic Fertilizer",
+    "category": "fertilizers",
+    "price": 350,
+    "description": "Natural compost-based fertilizer improving soil fertility and plant growth.",
+    "image": "https://tse3.mm.bing.net/th/id/OIP.07C9j-m38zWpR5lEloy_8AHaE7?pid=Api&P=0&h=180"
+  }
+]

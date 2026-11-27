@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AgriTrust - Sell Produce</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary:#2e7d32;
+    --primary-light:#e8f5e9;
+    --bg:#f7faf7;
+    --card:#ffffff;
+    --text:#222;
+    --muted:#6b6b6b;
+    --border:#dfe5df;
+    --radius:10px;
+    --shadow:0 3px 15px rgba(0,0,0,0.04);
+}
+*{margin:0; padding:0; box-sizing:border-box;}
+body { font-family: 'Inter', sans-serif; background:var(--bg); color:var(--text); line-height:1.5; font-size:15px; }
+.page-wrapper{ max-width:1000px; margin:auto; padding:25px; }
+header{ display:flex; justify-content:space-between; align-items:center; padding:12px 0 25px; }
+header .logo{ display:flex; align-items:center; }
+header .logo img{ height:44px; margin-right:8px; }
+header nav a{ margin-left:14px; text-decoration:none; font-weight:500; padding:6px 12px; border-radius:6px; color:var(--text); transition:.25s; font-size:14px; }
+header nav a:hover{ background:var(--primary-light); }
+header nav a.active{ background:var(--primary); color:#fff; }
+.hero { padding:20px; background:var(--primary-light); border-radius:var(--radius); margin-bottom:25px; border:1px solid var(--border); }
+.hero h1 { font-size:1.5rem; font-weight:800; }
+.hero p { font-size:.9rem; opacity:.9; }
+
+/* form */
+form{ background:var(--card); border-radius:var(--radius); padding:20px; border:1px solid var(--border); box-shadow:var(--shadow); margin-bottom:20px; }
+form h2{ font-size:1.1rem; font-weight:700; color:var(--primary); margin-bottom:12px; border-left:4px solid var(--primary); padding-left:8px; }
+.section-label { margin:18px 0 10px; font-size:.9rem; font-weight:600; color:var(--primary); opacity:.85; }
+.form-grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+label{ font-size:.85rem; font-weight:500; margin-bottom:6px; display:block; }
+input,select,textarea{ width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:#fff; font-size:.9rem; transition:.15s; }
+input:focus,select:focus,textarea:focus{ border-color:var(--primary); outline:none; box-shadow:0 0 0 3px rgba(46,125,50,0.08); }
+.radio-group{ display:flex; gap:14px; }
+.radio-group label{ display:flex; align-items:center; }
+/* FIX: show radio / checkbox properly */
+.radio-group input {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    accent-color: var(--primary);
+    display: inline-block;
+}
+/* images preview in form */
+.image-preview { display:flex; gap:10px; margin-top:8px; }
+.image-preview .thumb { width:70px; height:70px; background:#f3f3f3; border-radius:6px; overflow:hidden; position:relative; border:1px solid #eee; }
+.image-preview img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* buttons */
+.form-actions{ display:flex; gap:10px; margin-top:14px; }
+button.submit-btn{ background:var(--primary); color:white; padding:10px 14px; border:none; border-radius:8px; cursor:pointer; font-size:1rem; font-weight:600; }
+button.cancel-btn{ background:#f0f0f0; color:#333; padding:10px 12px; border:none; border-radius:8px; cursor:pointer; }
+
+/* listings */
+h2.section-title{ font-size:1.15rem; font-weight:700; margin-bottom:12px; color:var(--primary); }
+.card-list{ display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.card{ background:#fff; border-radius:var(--radius); padding:12px; border:1px solid var(--border); transition:.18s; position:relative; }
+.card:hover{ box-shadow:var(--shadow); transform:translateY(-2px); }
+.card img{ width:100%; height:140px; object-fit:cover; border-radius:8px; margin-bottom:8px; }
+.card h4{ font-size:.95rem; margin:3px 0; font-weight:600; }
+.card p{ margin:2px 0; font-size:.83rem; color:var(--muted); }
+.card .status{ margin-top:8px; font-weight:600; color:var(--primary); }
+
+/* details */
+.details{ margin-top:10px; border-top:1px solid var(--border); padding-top:10px; font-size:.9rem; color:#333; }
+
+/* small helpers */
+.badge { font-size:11px; padding:4px 8px; border-radius:999px; background:#e9f6ea; color:var(--primary); font-weight:600; display:inline-block; }
+.small { font-size:0.85rem; color:var(--muted); }
+
+/* highlight edit mode */
+form.edit-mode{ outline: 3px solid rgba(46,125,50,0.08); box-shadow: 0 6px 24px rgba(36,150,36,0.06); }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+<header>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+        <h2 style="font-size:1.15rem;font-weight:700;" data-text="site_name">AgriTrust</h2>
+    </div>
+    <nav>
+        <a href="{{ url_for('dash') }}" data-text="nav_dashboard">Dashboard</a>
+        <a class="active" href="{{ url_for('sell') }}" data-text="nav_marketplace">Marketplace</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h1 data-text="hero_title4">Sell Your Produce</h1>
+    <p data-text="hero_subtitle">Verified marketplace for fair pricing, secure payments & trusted buyers.</p>
+</div>
+
+<!-- FORM -->
+<form id="sellForm" action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data">
+    <h2 id="formTitle" data-text="form_new_listing">New Produce Listing</h2>
+
+    <input type="hidden" name="edit_id" id="edit_id" value="">
+
+    <div class="section-label" data-text="section_basic_details">Basic Details</div>
+    <div class="form-grid">
+        <div>
+            <label data-text="label_crop_type">Crop Type</label>
+            <select name="crop_type" id="crop_type" required>
+                <option value="" data-text="select_crop">Select Crop</option>
+                <option data-text="crop_wheat">Wheat</option>
+                <option data-text="crop_rice">Rice</option>
+                <option data-text="crop_maize">Maize</option>
+                <option data-text="crop_cotton">Cotton</option>
+                <option data-text="crop_potato">Potato</option>
+                <option data-text="crop_sugarcane">Sugarcane</option>
+                <option data-text="crop_vegetables">Vegetables</option>
+                <option data-text="crop_fruits">Fruits</option>
+                <option data-text="crop_spices">Spices</option>
+                <option data-text="crop_other">Other</option>
+            </select>
+        </div>
+        <div>
+            <label data-text="label_variety">Variety</label>
+            <input type="text" name="variety" id="variety" required placeholder="" data-text-placeholder="placeholder_variety">
+        </div>
+    </div>
+
+    <div class="section-label" data-text="section_production_details">Production Details</div>
+    <div class="form-grid">
+        <div>
+            <label data-text="label_quantity">Quantity (Quintals)</label>
+            <input type="number" name="quantity" id="quantity" min="1" required placeholder="" data-text-placeholder="placeholder_quantity">
+        </div>
+        <div>
+            <label data-text="label_min_order">Minimum Order Quantity</label>
+            <input type="number" name="min_order" id="min_order" min="1" required placeholder="" data-text-placeholder="placeholder_min_order">
+        </div>
+        <div>
+            <label data-text="label_quality_grade">Quality Grade</label>
+            <select name="quality_grade" id="quality_grade" required>
+                <option value="" data-text="select">Select</option>
+                <option data-text="grade_a">Grade A</option>
+                <option data-text="grade_b">Grade B</option>
+                <option data-text="grade_c">Grade C</option>
+            </select>
+        </div>
+        <div>
+            <label data-text="label_moisture">Moisture Level (%)</label>
+            <input type="number" name="moisture" id="moisture" min="0" max="100">
+        </div>
+        <div>
+            <label data-text="label_harvest_date">Harvest Date</label>
+            <input type="date" name="harvest_date" id="harvest_date" required>
+        </div>
+    </div>
+
+    <div class="form-grid">
+        <div>
+            <label data-text="label_price">Price per Quintal (₹)</label>
+            <input type="number" name="price" id="price" required>
+        </div>
+        <div>
+            <label data-text="label_msp">Government MSP (Optional)</label>
+            <input type="number" name="msp" id="msp">
+        </div>
+    </div>
+
+    <div class="section-label" data-text="section_farm_location">Farm & Location</div>
+    <div class="form-grid">
+        <div>
+            <label data-text="label_location">Farmer Location</label>
+            <input type="text" name="location" id="location" required>
+        </div>
+        <div>
+            <label data-text="label_farm_size">Farm Size (Acres)</label>
+            <input type="number" name="farm_size" id="farm_size" min="0">
+        </div>
+        <div>
+            <label data-text="label_soil_type">Soil Type</label>
+            <input type="text" name="soil_type" id="soil_type">
+        </div>
+    </div>
+
+    <div class="section-label" data-text="section_additional_info">Additional Information</div>
+
+<!-- State -->
+<label data-text="label_state">State</label>
+<select name="state" id="state" required>
+    <option value="" disabled selected>Select State</option>
+    <option value="raw" data-text="state_raw">Raw</option>
+    <option value="processed" data-text="state_processed">Processed</option>
+</select>
+
+<!-- Residue -->
+<label style="margin-top:12px;" data-text="label_residue">Residue Available?</label>
+<select name="residue" id="residue" required>
+    <option value="" disabled selected>Select Option</option>
+    <option value="yes" data-text="yes">Yes</option>
+    <option value="no" data-text="no">No</option>
+</select>
+
+<!-- Organic -->
+<label style="margin-top:12px;" data-text="label_organic">Organic Certified?</label>
+<select name="organic" id="organic" required>
+    <option value="" disabled selected>Select Option</option>
+    <option value="yes" data-text="yes">Yes</option>
+    <option value="no" data-text="no">No</option>
+</select>
+
+
+    <label style="margin-top:12px;" data-text="label_packaging">Packaging Type</label>
+    <select name="packaging" id="packaging">
+        <option data-text="pack_loose">Loose</option>
+        <option data-text="pack_gunny">Gunny Bags</option>
+        <option data-text="pack_pp">PP Bags</option>
+        <option data-text="pack_vacuum">Vacuum Sealed</option>
+    </select>
+
+    <label style="margin-top:12px;" data-text="label_delivery">Expected Delivery Date</label>
+    <input type="date" name="delivery_date" id="delivery_date">
+
+    <label style="margin-top:12px;" data-text="label_description">Additional Description</label>
+    <textarea name="description" id="description" rows="3"></textarea>
+
+    <div class="section-label" data-text="section_documents">Document Proof</div>
+    <label data-text="label_govt_proof">Farmer Proof (GST / PAN / License)</label>
+    <input type="file" name="govt_proof" id="govt_proof">
+
+    <label style="margin-top:8px;" data-text="label_certificate"> Quality Certificate</label>
+    <input type="file" name="certificate" id="certificate">
+
+    <label style="margin-top:8px;" data-text="label_images">Images</label>
+    <input type="file" name="images" id="images" multiple>
+
+    <div class="image-preview" id="existingImages"></div>
+
+    <div class="form-actions">
+        <button type="submit" class="submit-btn" id="submitBtn" data-text="btn_submit">Submit Listing</button>
+        <button type="button" class="cancel-btn" id="cancelBtn" style="display:none;" data-text="btn_cancel">Cancel Edit</button>
+    </div>
+</form>
+
+<!-- LISTINGS -->
+<h2 class="section-title" data-text="section_your_listings">Your Listings</h2>
+<div class="card-list" id="cardList">
+    {% if listings %}
+        {% for listing in listings %}
+       <div class="card"
+    onclick="toggleDetails(this)"
+    data-id="{{ listing.id }}"
+    data-crop_type="{{ listing.crop_type }}"
+    data-variety="{{ listing.variety }}"
+    data-quantity="{{ listing.quantity }}"
+    data-min_order="{{ listing.min_order }}"
+    data-quality_grade="{{ listing.quality_grade }}"
+    data-moisture="{{ listing.moisture }}"
+    data-harvest="{{ listing.harvest_date }}"
+    data-price="{{ listing.price }}"
+    data-msp="{{ listing.msp }}"
+    data-location="{{ listing.location }}"
+    data-farm_size="{{ listing.farm_size }}"
+    data-soil_type="{{ listing.soil_type }}"
+    data-state="{{ listing.state }}"
+    data-residue="{{ listing.residue }}"
+    data-organic="{{ listing.organic }}"
+    data-packaging="{{ listing.packaging }}"
+    data-delivery="{{ listing.delivery_date }}"
+    data-description="{{ listing.description }}"
+    data-images-list="{% for image in listing.images %}{{ url_for('static', filename='uploads/' + image) }}{% if not loop.last %},{% endif %}{% endfor %}"
+>
+            {% if listing.images %}
+                <img src="{{ url_for('static', filename='uploads/' + listing.images[0]) }}" alt="img">
+            {% else %}
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="AgriTrust">
+            {% endif %}
+
+            <h4>{{ listing.crop_type }} - {{ listing.variety }}</h4>
+            <p>Qty: {{ listing.quantity }} Quintals</p>
+            <p>₹{{ listing.price }}/Quintal</p>
+            <p class="small">{{ listing.quality_grade }}</p>
+            <p class="status">{{ listing.status or 'Pending' }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty" data-text="no_listings">No listings yet.</p>
+    {% endif %}
+</div>
+
+</div>
+
+<!-- ===========================
+     SCRIPT (wrapped in raw)
+     =========================== -->
+{% raw %}
+<script>
+const form = document.getElementById('sellForm');
+const submitBtn = document.getElementById('submitBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const editIdInput = document.getElementById('edit_id');
+const existingImagesDiv = document.getElementById('existingImages');
+const imagesInput = document.getElementById('images');
+const cardList = document.getElementById('cardList');
+const formTitle = document.getElementById('formTitle');
+
+let currentEditCard = null; // DOM element of card being edited
+let existingImages = [];    // array of existing image filenames (kept from server)
+
+// helper: set form values from dataset
+function populateFormFromCardDataset(d){
+    document.getElementById('crop_type').value = d.crop_type || '';
+    document.getElementById('variety').value = d.variety || '';
+    document.getElementById('quantity').value = d.quantity || '';
+    document.getElementById('min_order').value = d.min_order || '';
+    document.getElementById('quality_grade').value = d.quality_grade || '';
+    document.getElementById('moisture').value = d.moisture || '';
+    document.getElementById('harvest_date').value = d.harvest || '';
+    document.getElementById('price').value = d.price || '';
+    document.getElementById('msp').value = d.msp || '';
+    document.getElementById('location').value = d.location || '';
+    document.getElementById('farm_size').value = d.farm_size || '';
+    document.getElementById('soil_type').value = d.soil_type || '';
+ document.getElementById('state').value = d.state || '';
+document.getElementById('residue').value = d.residue || '';
+document.getElementById('organic').value = d.organic || '';
+
+    if(d.residue){
+        let el = document.querySelector(`input[name="residue"][value="${d.residue}"]`);
+        if(el) el.checked = true;
+    }
+    if(d.organic){
+        let el = document.querySelector(`input[name="organic"][value="${d.organic}"]`);
+        if(el) el.checked = true;
+    }
+    document.getElementById('packaging').value = d.packaging || '';
+    document.getElementById('delivery_date').value = d.delivery || '';
+    document.getElementById('description').value = d.description || '';
+}
+
+// display existing images thumbnails (server-hosted images)
+// expect card to have server image paths in data-existing-images (comma separated) if available
+function renderExistingImages(list){
+    existingImagesDiv.innerHTML = '';
+    existingImages = list || [];
+    existingImages.forEach((src, idx) => {
+        const t = document.createElement('div');
+        t.className = 'thumb';
+        t.innerHTML = `<img src="${src}" alt="img-${idx}">`;
+        // allow removing image from existing set (client-side only)
+        const rem = document.createElement('button');
+        rem.type = 'button';
+        rem.textContent = '✕';
+        rem.title = 'Remove image';
+        rem.style = 'position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;';
+        rem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            existingImages.splice(idx,1);
+            renderExistingImages(existingImages);
+        });
+        t.style.position = 'relative';
+        t.appendChild(rem);
+        existingImagesDiv.appendChild(t);
+    });
+}
+
+// card click handler: open details & show Edit button that fills form
+function toggleDetails(card){
+    // close if already open
+    if(card.querySelector('.details')){
+        card.querySelector('.details').remove();
+        return;
+    }
+
+    // remove any open details elsewhere
+    const open = document.querySelectorAll('.card .details');
+    open.forEach(n => n.remove());
+
+    const d = card.dataset;
+
+    const block = document.createElement('div');
+    block.className = 'details';
+
+    // try to read server-side image list if present (as data-existing-images)
+    let existingImagesList = [];
+    if(card.dataset.existingImages){
+        // dataset stores hyphen/commas escaped by Jinja? Expect comma-separated urls
+        existingImagesList = card.dataset.existingImages.split(',').filter(Boolean);
+    } else {
+        // If listing images are served under /static/uploads/... you might build paths here client-side.
+        // We will not guess filenames; server can add data-existing-images on cards if desired.
+    }
+
+    block.innerHTML = `
+        <p><b>Crop Type:</b> ${d.crop_type || '-'}</p>
+        <p><b>Variety:</b> ${d.variety || '-'}</p>
+        <p><b>Quantity:</b> ${d.quantity || '-' } Quintals</p>
+        <p><b>Min Order:</b> ${d.min_order || '-'}</p>
+        <p><b>Quality Grade:</b> ${d.quality_grade || '-'}</p>
+        <p><b>Moisture:</b> ${d.moisture ? d.moisture + '%' : '-'}</p>
+        <p><b>Harvest Date:</b> ${d.harvest || '-'}</p>
+        <p><b>Price:</b> ₹${d.price || '-'}</p>
+        <p><b>Location:</b> ${d.location || '-'}</p>
+        <p><b>Farm Size:</b> ${d.farm_size || '-'}</p>
+        <p><b>Soil Type:</b> ${d.soil_type || '-'}</p>
+        <p><b>Organic:</b> ${d.organic || '-'}</p>
+        <p><b>Residue:</b> ${d.residue || '-'}</p>
+        <p><b>Packaging:</b> ${d.packaging || '-'}</p>
+        <p><b>Expected Delivery:</b> ${d.delivery || '-'}</p>
+        <p><b>Description:</b><br>${d.description || '-'}</p>
+        <div style="margin-top:10px;">
+            <button type="button" style="background:var(--primary);color:white;padding:8px 12px;border:none;border-radius:6px;cursor:pointer;" onclick="startEdit(this.closest('.card'))">
+                Edit
+            </button>
+        </div>
+    `;
+
+    card.appendChild(block);
+}
+
+// start edit mode: fill form, mark edit id, show existing images if provided, focus
+function startEdit(card){
+    const d = card.dataset;
+    currentEditCard = card;
+    editIdInput.value = d.id || '';
+    populateFormFromCardDataset(d);
+
+    // render existing images if listing provided server-side list (optional)
+    if(card.dataset.imagesList){
+        // expected format: "/static/uploads/img1.jpg,/static/uploads/img2.jpg"
+        const list = card.dataset.imagesList.split(',').filter(Boolean);
+        renderExistingImages(list);
+    } else {
+        renderExistingImages([]); // clear
+    }
+
+    // update submit button
+    submitBtn.textContent = 'Update Listing';
+    cancelBtn.style.display = 'inline-block';
+    form.classList.add('edit-mode');
+    // smooth scroll to form top
+    window.scrollTo({ top: document.querySelector('.page-wrapper').offsetTop - 10, behavior: 'smooth' });
+}
+
+// cancel edit
+cancelBtn.addEventListener('click', () => {
+    currentEditCard = null;
+    editIdInput.value = '';
+    submitBtn.textContent = 'Submit Listing';
+    cancelBtn.style.display = 'none';
+    form.classList.remove('edit-mode');
+    renderExistingImages([]); // clear thumbnails
+});
+
+// intercept form submit to do AJAX then update card UI client-side
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const fd = new FormData(form);
+
+    // include existingImages filenames so backend knows which images to keep
+    // existingImages are server URLs; backend may expect filenames or full URLs — adapt as needed.
+    existingImages.forEach((src, idx) => fd.append('existing_images[]', src));
+
+    // send via fetch to the same endpoint
+    fetch(form.action, {
+        method: 'POST',
+        body: fd,
+        credentials: 'same-origin',
+        headers: {
+            // no Content-Type header: let browser set multipart/form-data boundary
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    }).then(async res => {
+        // Try parse JSON response
+        let json = null;
+        try { json = await res.json(); } catch(err) { json = null; }
+
+        if(json && json.success && json.listing){
+            // update/insert card in DOM using listing data returned by server
+            upsertCard(json.listing);
+            // stay on page, keep form filled (user requested not to reset)
+            // update UI to editing state remain
+            editIdInput.value = json.listing.id; // keep edit id
+            // optionally show a small success badge
+            showTemporaryMessage('Saved ✓');
+        } else {
+            // fallback: non-JSON response or server did not return structured response
+            // submit the form normally so backend handles it (full page submit)
+            form.submit();
+        }
+    }).catch(err => {
+        // network error -> fallback to normal submit
+        console.error('AJAX failed, falling back to normal submit', err);
+        form.submit();
+    });
+});
+
+// update or insert card DOM element from listing object
+// update or insert card DOM element from listing object
+function upsertCard(listing){
+    // ensure ID is string for dataset matching
+    const id = String(listing.id);
+    let card = document.querySelector(`.card[data-id="${id}"]`);
+
+    // helper to set all dataset attributes
+    const setDataAttrs = (el, obj) => {
+        el.dataset.id = obj.id || '';
+        el.dataset.crop_type = obj.crop_type || '';
+        el.dataset.variety = obj.variety || '';
+        el.dataset.quantity = obj.quantity || '';
+        el.dataset.min_order = obj.min_order || '';
+        el.dataset.quality_grade = obj.quality_grade || '';
+        el.dataset.moisture = obj.moisture || '';
+        el.dataset.harvest = obj.harvest_date || '';
+        el.dataset.price = obj.price || '';
+        el.dataset.msp = obj.msp || '';
+        el.dataset.location = obj.location || '';
+        el.dataset.farm_size = obj.farm_size || '';
+        el.dataset.soil_type = obj.soil_type || '';
+        el.dataset.state = obj.state || '';
+        el.dataset.residue = obj.residue || '';
+        el.dataset.organic = obj.organic || '';
+        el.dataset.packaging = obj.packaging || '';
+        el.dataset.delivery = obj.delivery_date || '';
+        el.dataset.description = obj.description || '';
+        if(obj.images && Array.isArray(obj.images)){
+            el.dataset.imagesList = obj.images.join(',');
+        } else {
+            el.dataset.imagesList = '';
+        }
+    };
+
+    // if card exists, update in-place
+    if(card){
+        setDataAttrs(card, listing);
+    } else {
+        // create new card
+        card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('onclick', 'toggleDetails(this)');
+        setDataAttrs(card, listing);
+        cardList.prepend(card); // add new card to top
+    }
+
+    // build innerHTML safely
+    const imgSrc = (listing.images && listing.images.length > 0) 
+        ? listing.images[0] 
+        : '/static/logo.png';
+
+    card.innerHTML = `
+        <img src="${imgSrc}" alt="img">
+        <h4>${escapeHtml(listing.crop_type)} - ${escapeHtml(listing.variety)}</h4>
+        <p>Qty: ${escapeHtml(String(listing.quantity))} Quintals</p>
+        <p>₹${escapeHtml(String(listing.price))}/Quintal</p>
+        <p class="small">${escapeHtml(listing.quality_grade || '')}</p>
+        <p class="status">${escapeHtml(listing.status || 'Pending')}</p>
+    `;
+}
+
+
+// small helper to escape HTML in strings
+function escapeHtml(s){
+    if(!s && s !== 0) return '';
+    return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
+}
+
+// temporary success message near submit button
+function showTemporaryMessage(msg){
+    const original = submitBtn.textContent;
+    submitBtn.textContent = msg;
+    setTimeout(()=> { submitBtn.textContent = editIdInput.value ? 'Update Listing' : 'Submit Listing'; }, 1400);
+}
+
+// optionally: populate existingImagesDiv when page loads if you render data-existing-images on cards
+document.addEventListener('DOMContentLoaded', () => {
+    // nothing to do by default
+});
+</script>
+{% endraw %}
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+</body>
+</html>

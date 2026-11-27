@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-text="page_title">AgriTrust Buyer & Supplier Hub</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<link rel="stylesheet" href="static/dashuser.css"/>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="absolute-bg-pattern"></div>
+<div class="layout-container">
+<div class="main-content-wrapper">
+
+<header class="main-header">
+<div class="header-content-left">
+<a class="header-logo-link" href="#">
+<div class="logo-icon-box">
+    <img src="static/logo.png" alt="AgriTrust Logo" class="logo-image"/>
+</div>
+</a>
+</div>
+<div class="header-actions-right">
+<button class="icon-button notification-button">
+<span class="material-symbols-outlined">notifications</span>
+<span class="notification-badge-dot">3</span>
+</button>
+<div class="user-menu-dropdown-wrapper">
+<button class="user-menu-button">
+<span class="material-symbols-outlined">person</span>
+</button>
+<div class="user-menu-dropdown">
+<div class="user-menu-items">
+<a class="menu-item logout-item" href="{{ url_for('home') }}">
+<span class="material-symbols-outlined menu-icon">logout</span>
+<span>Home</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<div class="hub-title-section">
+<p class="hub-title" data-text="hub_title">AgriTrust Buyer & Supplier Hub</p>
+</div>
+
+<main class="main-hub-content">
+<div class="hub-card-grid">
+<a aria-label="Buy Crops & Price Discovery" class="hub-card primary-card-link" href="{{ url_for('shop') }}">
+<div class="hub-card-content">
+<div class="hub-card-icon-box primary-icon-box">
+<span class="material-symbols-outlined hub-card-icon">grain</span>
+</div>
+<h3 class="hub-card-title" data-text="buy_crops_title">Buy Crops & Price Discovery</h3>
+<p class="hub-card-description" data-text="buy_crops_desc">Explore a wide variety of crop listings and participate in competitive bidding.</p>
+</div>
+</a>
+
+<a aria-label="Buy Agricultural Residue" class="hub-card secondary-card-link" href="{{ url_for('buy_residues') }}">
+<div class="hub-card-content">
+<div class="hub-card-icon-box secondary-icon-box-green">
+<span class="material-symbols-outlined hub-card-icon">eco</span>
+</div>
+<h3 class="hub-card-title" data-text="buy_residue_title">Buy Agricultural Residue</h3>
+<p class="hub-card-description" data-text="buy_residue_desc">Source agricultural waste for bio-energy, composting, or other sustainable uses.</p>
+</div>
+</a>
+
+<a aria-label="List Farm Supplies" class="hub-card secondary-card-link" href="{{ url_for('supplies') }}">
+<div class="hub-card-content">
+<div class="hub-card-icon-box secondary-icon-box-brown">
+<span class="material-symbols-outlined hub-card-icon">construction</span>
+</div>
+<h3 class="hub-card-title" data-text="list_supplies_title">List Farm Supplies</h3>
+<p class="hub-card-description" data-text="list_supplies_desc">Sell your agricultural inputs, from seeds to equipment, to our extensive farmer network.</p>
+</div>
+</a>
+</div>
+</main>
+
+<section class="quick-links-section">
+<div class="quick-links-wrapper">
+<a class="quick-link" href="{{ url_for('orders') }}">Order Requests</a>
+<a class="quick-link" href="{{ url_for('sell_transport') }}">List Transport</a>
+<a class="quick-link" href="{{ url_for('analytics') }}">Transaction Analytics</a>
+</div>
+</section>
+
+</div>
+</div>
+<footer class="main-footer">
+<div class="footer-wrapper">
+<div class="footer-content-items">
+<p class="footer-copyright" data-text="footer_copyright">© 2024 AgriTrust. All rights reserved.</p>
+<div class="footer-links-group">
+<a class="footer-link-item" href="#" data-text="terms">Terms of Service</a>
+<a class="footer-link-item" href="#" data-text="privacy">Privacy Policy</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+</body>
+</html>

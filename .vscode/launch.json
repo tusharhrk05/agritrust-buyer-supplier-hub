@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "AgriTrust: Run Flask App",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.py",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "console": "integratedTerminal",
+      "preLaunchTask": "AgriTrust: Prepare .venv",
+      "env": {
+        "FLASK_DEBUG": "1",
+        "PORT": "5000"
+      },
+      "justMyCode": true
+    }
+  ]
+}
+

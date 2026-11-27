@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Residues - AgriTrust</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+
+<style>
+    /* Base & Reset */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Public Sans',sans-serif; }
+    body { background:#f9f9f9; color:#333; }
+    a { text-decoration:none; color:inherit; }
+    img { max-width:100%; display:block; }
+
+    /* Header */
+    header { background:#2E7D32; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; color:#fff; }
+    header .logo-img { height:40px; }
+    header nav a { margin-left:1.5rem; color:#fff; font-weight:500; }
+
+    /* Main Content */
+    main { padding:2rem; }
+    main h1 { font-size:2rem; margin-bottom:0.5rem; color:#2E7D32; }
+    main p { margin-bottom:1rem; }
+
+    /* Filters */
+    .filters { display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem; }
+    .filters input, .filters select { padding:0.5rem; border-radius:5px; border:1px solid #ccc; }
+
+    /* Products Grid */
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }
+    .product-card { background:#fff; border-radius:8px; padding:1rem; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s; position:relative; }
+    .product-card:hover { transform:translateY(-5px); }
+    .product-img { height:150px; object-fit:cover; border-radius:5px; margin-bottom:1rem; }
+    .product-title { font-size:1.2rem; margin-bottom:0.5rem; color:#2E7D32; }
+    .product-desc { font-size:0.95rem; margin-bottom:0.5rem; }
+    .product-price { font-weight:700; margin-bottom:1rem; color:#E65100; }
+    .btn-buy { background:#2E7D32; color:#fff; border:none; padding:0.5rem 1rem; border-radius:5px; cursor:pointer; transition:background 0.2s; }
+    .btn-buy:hover { background:#1B5E20; }
+
+    /* Footer */
+    footer { text-align:center; padding:1.5rem; background:#2E7D32; color:#fff; margin-top:2rem; }
+
+    /* ---------------- CART DRAWER ---------------- */
+    #cartDrawer {
+        position: fixed;
+        top: 0;
+        right: -350px; /* hidden */
+        width: 350px;
+        height: 100%;
+        background: #ffffff;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        transition: right 0.35s ease;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        z-index: 9999;
+    }
+
+    #cartDrawer.open {
+        right: 0;
+    }
+
+    #cartHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2E7D32;
+    }
+
+    #closeCart {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    #cartItems {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+
+    .cart-item {
+        padding: 0.7rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #checkoutBtn {
+        background: #E65100;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="AgriTrust Logo" class="logo-img">
+    </div>
+    <nav>
+        <a href="{{ url_for('dashuser') }}">Dashboard</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
+<main>
+    <h1>Buy Residues</h1>
+    <p>Select from available agricultural residues below:</p>
+
+    <!-- Filters -->
+    <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search residues...">
+        <select id="sortSelect">
+            <option value="default">Sort: Default</option>
+            <option value="priceLow">Price: Low to High</option>
+            <option value="priceHigh">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+        </select>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="productsGrid"></div>
+</main>
+
+<footer>
+    <p>© 2025 AgriTrust. All rights reserved.</p>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer">
+    <div id="cartHeader">
+        <span>🛒 Your Cart</span>
+        <button id="closeCart">&times;</button>
+    </div>
+    <div id="cartItems"></div>
+    <p class="cart-total">Total: ₹<span id="cartTotal">0</span></p>
+    <button id="checkoutBtn">Proceed to Checkout</button>
+</div>
+
+
+<script>
+/* ------------------ PRODUCTS ------------------ */
+const sampleProducts = [
+    {id:1, name:"Wheat Straw", desc:"High-quality wheat straw suitable for animal feed or composting.", price:500, img:"residue1.jpg"},
+    {id:2, name:"Rice Husk", desc:"Organic rice husk for soil enrichment or fuel purposes.", price:300, img:"residue2.jpg"},
+    {id:3, name:"Corn Stover", desc:"Dried corn leaves and stalks, useful for fodder and compost.", price:400, img:"residue3.jpg"},
+    {id:4, name:"Barley Straw", desc:"Nutritious barley straw for livestock feed.", price:450, img:"residue4.jpg"},
+    {id:5, name:"Soybean Residue", desc:"Rich in protein, excellent for animal feed.", price:600, img:"residue5.jpg"}
+].map(item => ({ ...item, img: `/static/${item.img}` }));
+const listedProducts = {{ residue_listings|tojson }}.map(item => ({
+    id: `listing-${item.id}`,
+    name: item.type || "Farmer residue listing",
+    desc: `${item.qty || "Available"} kg • ${item.location || "Location on request"}${item.desc ? ` • ${item.desc}` : ""}`,
+    price: Number(item.price) || 0,
+    img: item.image ? `/static/uploads/${encodeURIComponent(item.image)}` : "/static/logo.png"
+}));
+const products = [...listedProducts, ...sampleProducts];
+
+const grid = document.getElementById('productsGrid');
+const searchInput = document.getElementById('searchInput');
+const sortSelect = document.getElementById('sortSelect');
+
+let cart = [];
+
+/* ------------------ RENDER PRODUCTS ------------------ */
+function renderProducts(list){
+    grid.innerHTML = '';
+    if(list.length === 0){
+        grid.innerHTML = '<p>No residues found.</p>';
+        return;
+    }
+    list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        const image = document.createElement('img');
+        image.src = p.img;
+        image.alt = p.name;
+        image.className = 'product-img';
+        const title = document.createElement('h3');
+        title.className = 'product-title';
+        title.textContent = p.name;
+        const description = document.createElement('p');
+        description.className = 'product-desc';
+        description.textContent = p.desc;
+        const price = document.createElement('p');
+        price.className = 'product-price';
+        price.textContent = p.price ? `₹${p.price} / kg` : 'Price on request';
+        const button = document.createElement('button');
+        button.className = 'btn-buy';
+        button.textContent = 'Add to Cart';
+        button.addEventListener('click', () => addToCart(p.id));
+        card.append(image, title, description, price, button);
+        grid.appendChild(card);
+    });
+}
+
+/* ------------------ FILTER & SORT ------------------ */
+function filterAndSort(){
+    const q = searchInput.value.toLowerCase();
+    let list = products.filter(p =>
+        p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)
+    );
+
+    if(sortSelect.value === "priceLow") list.sort((a,b) => a.price - b.price);
+    if(sortSelect.value === "priceHigh") list.sort((a,b) => b.price - a.price);
+    if(sortSelect.value === "name") list.sort((a,b) => a.name.localeCompare(b.name));
+
+    renderProducts(list);
+}
+
+searchInput.addEventListener("input", filterAndSort);
+sortSelect.addEventListener("change", filterAndSort);
+
+renderProducts(products);
+
+
+/* ------------------ CART DRAWER LOGIC ------------------ */
+const cartDrawer = document.getElementById("cartDrawer");
+const cartItemsDiv = document.getElementById("cartItems");
+const closeCartBtn = document.getElementById("closeCart");
+
+/* Add item to cart & open drawer */
+function addToCart(id){
+    const product = products.find(p => p.id === id);
+    const existing = cart.find(item => item.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ ...product, qty: 1, category: "residue" });
+
+    renderCart();
+    openCart();
+}
+
+/* Show drawer */
+function openCart(){
+    cartDrawer.classList.add("open");
+}
+
+/* Hide drawer */
+closeCartBtn.addEventListener("click", () => {
+    cartDrawer.classList.remove("open");
+});
+
+/* Render cart items */
+function renderCart(){
+    cartItemsDiv.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price * item.qty;
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.textContent = `${item.name} — ${item.qty} × ${item.price ? `₹${item.price}` : "price on request"}`;
+        cartItemsDiv.appendChild(div);
+    });
+    document.getElementById("cartTotal").textContent = total.toFixed(2);
+}
+
+document.getElementById("checkoutBtn").addEventListener("click", async () => {
+    if (!cart.length) return alert("Your cart is empty.");
+    const response = await fetch("/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cart })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) return alert(result.error || "Checkout could not be completed.");
+    alert(`Order request ${result.receipt} was saved. Payment and delivery can be arranged directly.`);
+    cart = [];
+    renderCart();
+    cartDrawer.classList.remove("open");
+});
+</script>
+
+</body>
+</html>

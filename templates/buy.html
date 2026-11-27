@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTrust Crop Marketplace</title>
+<link rel="stylesheet" href="static/buy.css"/>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body>
+<div class="page-wrapper">
+    
+<header class="main-header">
+    <div class="header-container">
+        <a class="header-logo-link" href="#">
+            <img alt="AgriTrust Logo" class="header-logo" src="static/logo.png"/>
+        </a>
+        <nav class="header-nav">
+            <a class="nav-link" href="dash.html">Dashboard</a>
+            <a class="nav-link nav-active" href="buy.html">Marketplace</a>
+        </nav>
+        <div class="header-actions">
+            <button class="notification-button">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="notification-badge">
+                    <span class="ping-animation"></span>
+                    <span class="solid-dot"></span>
+                </span>
+            </button>
+            <div class="profile-placeholder"></div>
+        </div>
+    </div>
+</header>
+    
+<main class="main-content">
+    <div class="content-wrapper">
+        <h1 class="page-title">AgriTrust Crop Marketplace</h1>
+        <p class="page-subtitle">Find Available Produce from Trusted Farmers</p>
+
+        <div class="search-section">
+            <div class="search-input-wrapper">
+                <span class="material-symbols-outlined search-icon-svg">search</span>
+                <input class="search-input" placeholder="Search for crops, varieties, or locations..." type="search"/>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3 class="filter-title">Filter Options</h3>
+                <button class="clear-filters-btn">
+                    <svg class="icon-small" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" fill-rule="evenodd"></path></svg>
+                    <span>Clear All Filters</span>
+                </button>
+            </div>
+            
+            <div class="filter-controls-grid">
+                
+                <div class="filter-group">
+                    <label for="crop-type-filter" class="filter-label">Crop Type</label>
+                    <select id="crop-type-filter" class="filter-select">
+                        <option value="">All Crops</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="rice">Rice</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="sugarcane">Sugarcane</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="min-quantity" class="filter-label">Min. Quantity (kg)</label>
+                    <input id="min-quantity" type="number" placeholder="e.g., 1000" class="filter-input"/>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="location-filter" class="filter-label">Location (City/State)</label>
+                    <input id="location-filter" type="text" placeholder="e.g., Nashik, MH" class="filter-input"/>
+                </div>
+                
+                <div class="filter-group">
+                    <span class="filter-label">Residue Available?</span>
+                    <div class="radio-options">
+                        <label class="radio-label-filter">
+                            <input type="radio" name="residue-filter" value="yes" class="radio-input-filter"/> Yes
+                        </label>
+                        <label class="radio-label-filter">
+                            <input type="radio" name="residue-filter" value="no" class="radio-input-filter"/> No
+                        </label>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <h2 class="listings-heading">Available Listings (248)</h2>
+        <div class="listings-grid">
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Wheat" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD3tAGkAJAQA8zeMdM4ep9OMzvJ-a3vpq7LzwtDV103_ot6yOPzolY9tSt1T8eCfjnnyE3gXCa4UiZLWpjI-SL0cv6MpVlRQbFGhtf3kdcS3l22Fk1zmO5feS_YsdYgEEk-o4ecwISNgfFL9yJes5SYHg9b27JJA88Yz5HKv5BD2cs1sXtvNuw3DVb9rBFvAcdlOulhqrTLLSNLkmZKDokBFDAL3Tj3HhQH02_KUJNRFBrZcuQ81PdqOfNvX1pJZyHSEI_Dk-UPLI7"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Wheat - Sonali</h3>
+                    <p class="card-metadata">5000 kg</p>
+                    <p class="card-metadata">Nashik, Maharashtra</p>
+                    <div class="residue-tag">
+                        <span class="material-symbols-outlined icon-small">compost</span> Residue Available
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">View Details & Inquire</button>
+                </div>
+            </div>
+            
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Rice" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-uITccPPZfUp-s4NuK133dDLmgePntZtJgI9B_vtsxOY-gWIG_C-3O8pHa3p24A5Y0PA80zthpW7-zKg_3Q6Qm-htoC7pE_lomYVmez55uuj29tWhKzNsqs_ZG9503wj1TMCOkuNyWenmv9KGy6Zb8Fj-q6JTMLD1FrXXhXvFk3HXP9p6TU1F8N7L3zfOCB3PTSyvf2jEhyFhxyymT1GQKrY9SD1hn0iDWelUsA5A4Cdr5l4S3VWQx5V-2Z4zaT0zYqdhCy46IW3k"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Rice - Basmati</h3>
+                    <p class="card-metadata">3000 kg</p>
+                    <p class="card-metadata">Karnal, Haryana</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">View Details & Inquire</button>
+                </div>
+            </div>
+
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Cotton" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR353nCqTk-KrasxiAWOgP3VJOxQFmjTEmJ42iuIAPvzL3El8STq8jWnrwuYAzhyqNeUFALv2SUAOzKEa1DtokYbVHm3yeNF7rwTBDrqTF---ywjezMcQLtU6L8v4sArJfXYjqKkEGwCSZS6aA9dLjzdTGEFU8CJ9UVQuGMDlPEZFn5TGAxf0I3mxAsJ5-dSrqZlpSOMgGCb698sgaSK6599Ltzxnce5FI2CrONM0MJL7Sgoi6l-YYixahhvizmGs0telbPUpiy0t6"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Cotton - Hybrid</h3>
+                    <p class="card-metadata">2000 kg</p>
+                    <p class="card-metadata">Aurangabad, Maharashtra</p>
+                    <div class="residue-tag">
+                        <span class="material-symbols-outlined icon-small">compost</span> Residue Available
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">View Details & Inquire</button>
+                </div>
+            </div>
+            
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Lentils" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFmXLhsw08G0UshcdyPsXohQulY_Lk05_7TPXhJNNgWdMw9Buv_KR6QfddA-QDJZBrs7fcSJN2f_Hyv5jToiVwcz--5aNREiDstS3twgVOUm7njWC51EMk29wu6ZQ5Id3e2NS1gud5Tw5Be-Kap-2EKy-X_bXlkHz7BZXEoCpU_NWVp5B8NgAruwNRpmNXPK63LDfm3_uCgBdw2G5V0ezZqv7Iln65lFQK9LyKaEw1vbh6x-AgfH2WbQqRDIl_pn8tBXMUEGX-pR7v"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Lentils - Masoor</h3>
+                    <p class="card-metadata">1500 kg</p>
+                    <p class="card-metadata">Indore, Madhya Pradesh</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">View Details & Inquire</button>
+                </div>
+            </div>
+
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Sugarcane" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi21pvxgKbdtyo5fCxXE1R85uQQ_RtwSZlS3zDJWVi4wW_kiTLcfyUaagEi0tlrvRs6AdtvtSsmuV9SQN3fdW-Za2FsOMlwToNqpczG32SpUeWYg_DL0zm-_Zw0wx4A_Dg_0K6kEn1_yJyw2S6yTOfl3TAXuhF2YIfUlYbjApYzTFw85h-1cEHQBv5vwuzd_AwIUXqqf0H6QkJLUgDlTESIA44PRh_DsSuQMuBPROhI2AS6Sk6J-LYArmlVOCT2Qq-K47bzW5eJd5Q"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Sugarcane - Co 0238</h3>
+                    <p class="card-metadata">8000 kg</p>
+                    <p class="card-metadata">Meerut, Uttar Pradesh</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">View Details & Inquire</button>
+                </div>
+            </div>
+
+            <div class="listing-card">
+                <div class="card-image-wrapper">
+                    <img alt="Maize" class="card-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUe_jy7VHVvxuxYucFUtDwmJSEkuABB0XsBDS7eGeodn0d8vJY8okwX_UbZ2AJhqIxX0uNJQF2TlH9G5AduvL2iPFhN-7g7TlUEpSGlsC36rl5aACLziiKeifhaESqLryGQRyAXQm_3cucRE9dAH_OmCjJ7KYIrs4FypajhUaOBU1hUchX7_yZnuU-FjS-2iqSC34iZBesPi_teliBe6c1vy5dcUYBaicnokq74Ny9HW2_st8xpCboLwIAGGCnQuJGqJAzwwkbRq4N"/>
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">Maize - Sweet Corn</h3>
+                    <p class="card-metadata">4000 kg</p>
+                    <p class="card-metadata">Nizamabad, Telangana</p>
+                    <div class="residue-tag">
+                        <span class="material-symbols-outlined icon-small">compost</span> Residue Available
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">View Details & Inquire</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="load-more-section">
+            <button class="btn btn-load-more">Load More Listings</button>
+        </div>
+    </div>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <p class="footer-copyright">© 2024 AgriTrust. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="static/buy.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Wheat Straw",
+    "price": 12,
+    "unit": "per kg",
+    "img": "static/images/image.png",
+    "category": "residue"
+  },
+  {
+    "id": 2,
+    "name": "Rice Husk",
+    "price": 10,
+    "unit": "per kg",
+    "img": "static/images/image.png",
+    "category": "residue"
+  },
+  {
+    "id": 3,
+    "name": "Sugarcane Bagasse",
+    "price": 15,
+    "unit": "per kg",
+    "img": "static/images/image.png",
+    "category": "residue"
+  },
+  {
+    "id": 4,
+    "name": "Corn Cob Residue",
+    "price": 18,
+    "unit": "per kg",
+    "img": "static/images/image.png",
+    "category": "residue"
+  }
+]

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}"/>
+</head>
+<body>
+
+<div class="page-container">
+<header class="header">
+<div class="header-container">
+<div class="header-logo-container">
+<img src="{{ url_for('static', filename='logo.png') }}" alt="AgriTrust Logo" class="agri-logo">
+</div>
+<div class="header-actions">
+<a href="{{ url_for('landing') }}">
+  <button class="btn btn-primary">
+    Get Started
+  </button>
+</a>
+<button class="btn btn-mobile-menu">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="main-content">
+<div class="content-wrapper">
+<div class="about-section">
+<div class="text-center">
+<h2 class="section-heading">About Us</h2>
+<p class="section-subtitle">Empowering India's Farmers</p>
+</div>
+<section class="story-section">
+<h3 class="section-title">Our Story &amp; Mission</h3>
+<p class="section-intro-text"> AgriTrust was founded with a singular vision: to empower Indian farmers through a unified digital ecosystem. We believe in the power of technology to transform agriculture, making it more transparent, sustainable, innovative, and community-driven. Our mission is to bridge the gap between farmers and the resources they need to thrive in a rapidly changing world. </p>
+</section>
+<section class="values-section">
+<h3 class="section-title">Our Core Values</h3>
+<div class="values-grid">
+<div class="value-card">
+<div class="icon-container">
+<span class="material-symbols-outlined icon-main">visibility</span>
+</div>
+<h4 class="card-title">Transparency</h4>
+<p class="card-text">We operate with complete openness, ensuring all stakeholders have access to clear and accurate information.</p>
+</div>
+<div class="value-card">
+<div class="icon-container">
+<span class="material-symbols-outlined icon-main">eco</span>
+</div>
+<h4 class="card-title">Sustainability</h4>
+<p class="card-text">We promote environmentally responsible practices that protect our planet for future generations.</p>
+</div>
+<div class="value-card">
+<div class="icon-container">
+<span class="material-symbols-outlined icon-main">lightbulb</span>
+</div>
+<h4 class="card-title">Innovation</h4>
+<p class="card-text">We embrace cutting-edge technologies to enhance agricultural productivity and efficiency.</p>
+</div>
+<div class="value-card">
+<div class="icon-container">
+<span class="material-symbols-outlined icon-main">groups</span>
+</div>
+<h4 class="card-title">Community</h4>
+<p class="card-text">We foster a collaborative environment where farmers, experts, and partners work together for mutual success.</p>
+</div>
+</div>
+<section class="team-section">
+<h3 class="section-title">Meet the Team</h3>
+<div class="team-grid">
+  
+  <div class="team-member-card has-image">
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='lady.jpg') }}" alt="Himanshi Shehrawat" class="member-image">
+    </div>
+    <h4 class="card-title">Himanshi Shehrawat</h4>
+    <p class="card-role">Founder &amp; CEO</p>
+    <p class="card-text">A visionary leader with a PhD in Agricultural Science, dedicated to revolutionizing Indian farming.</p>
+  </div>
+  
+  <div class="team-member-card has-image">
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='p2.jpg') }}" alt="Tushar Himmatramka" class="member-image">
+    </div>
+    <h4 class="card-title">Tushar Himmatramka</h4>
+    <p class="card-role">Chief Technology Officer</p>
+    <p class="card-text">An experienced tech expert passionate about building scalable and user-friendly platforms for farmers.</p>
+  </div>
+  
+  <div class="team-member-card has-image">
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='person.png') }}" alt="Vishal Balyan" class="member-image">
+    </div>
+    <h4 class="card-title">Vishal Balyan</h4>
+    <p class="card-role">Head of Operations</p>
+    <p class="card-text">Ensures seamless execution of our services, connecting farmers with the right resources efficiently.</p>
+  </div>
+  
+  <div class="team-member-card has-image">
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='rajesh.jpeg') }}" alt="Tanisha Garg" class="member-image">
+    </div>
+    <h4 class="card-title">Tanisha Garg</h4>
+    <p class="card-role">Community Manager</p>
+    <p class="card-text">Builds and nurtures our farmer community, fostering collaboration and knowledge sharing.</p>
+  </div>
+  
+</div>
+</section>
+<section class="impact-section">
+<h3 class="section-title">Our Impact</h3>
+<div class="impact-grid">
+<div class="impact-card">
+<p class="impact-count">5,000+</p>
+<p class="impact-text">Farmers Empowered</p>
+</div>
+<div class="impact-card">
+<p class="impact-count">2,000+</p>
+<p class="impact-text">Sustainable Practices Adopted</p>
+</div>
+<div class="impact-card">
+<p class="impact-count">10,000+</p>
+<p class="impact-text">Community Engagement</p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<footer class="footer">
+<div class="footer-container">
+<div class="footer-links">
+<a class="footer-link" href="#">Privacy Policy</a>
+<a class="footer-link" href="#">Terms of Service</a>
+<a class="footer-link" href="#">Contact Us</a>
+</div>
+<p class="footer-copyright">© 2024 AgriTrust. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body>
+</html>

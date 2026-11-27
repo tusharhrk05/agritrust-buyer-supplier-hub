@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transaction Analytics | AgriTrust</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='analytics.css') }}">
+</head>
+<body>
+  <main class="analytics-page">
+    <header class="topbar">
+      <a class="back-link" href="{{ url_for('dash') }}">← Dashboard</a>
+      <a class="brand" href="{{ url_for('home') }}">AgriTrust</a>
+      <a class="market-link" href="{{ url_for('dashuser') }}">Marketplace</a>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">MARKETPLACE PERFORMANCE</p>
+        <h1>Transaction analytics</h1>
+        <p class="lede">Explore order activity, completed sample sales, products, and regional demand.</p>
+      </div>
+      <div class="heading-actions">
+        <form method="get" action="{{ url_for('analytics') }}" class="period-form">
+          <label for="period">Date range</label>
+          <select id="period" name="period">
+            <option value="30d" {% if period == '30d' %}selected{% endif %}>Last 30 days</option>
+            <option value="90d" {% if period == '90d' %}selected{% endif %}>Last 90 days</option>
+            <option value="12m" {% if period == '12m' %}selected{% endif %}>Last 12 months</option>
+            <option value="all" {% if period == 'all' %}selected{% endif %}>All records</option>
+          </select>
+          <button type="submit">Apply</button>
+        </form>
+        <a class="export-button" href="{{ url_for('analytics_export', period=period) }}">Export CSV</a>
+      </div>
+    </section>
+
+    <aside class="data-note">
+      <span class="note-icon">i</span>
+      <p><strong>Sample data is included.</strong> The project seeds 150 reproducible synthetic transactions across the last 12 months. Sample records are labeled. New checkout requests, machine rentals, and manually added records are saved to the shared database and included for every user when this page reloads.</p>
+      <span class="source-count">{{ stats.sample_transactions }} sample · {{ stats.live_transactions }} live in this range</span>
+    </aside>
+
+    <section class="metric-grid" aria-label="Transaction summary">
+      <article class="metric-card">
+        <div class="metric-label">Transactions</div>
+        <div class="metric-value">{{ stats.transactions }}</div>
+        <div class="metric-foot">{{ stats.completed }} completed · {{ stats.pending }} requested</div>
+      </article>
+      <article class="metric-card metric-highlight">
+        <div class="metric-label">Completed order value</div>
+        <div class="metric-value">₹{{ "{:,.0f}".format(stats.completed_value) }}</div>
+        <div class="metric-foot">Completed sample and user-entered records</div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-label">Pending request value</div>
+        <div class="metric-value">₹{{ "{:,.0f}".format(stats.pending_value) }}</div>
+        <div class="metric-foot">Includes live checkout requests</div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-label">Average completed order</div>
+        <div class="metric-value">₹{{ "{:,.0f}".format(stats.average_order) }}</div>
+        <div class="metric-foot">Median ₹{{ "{:,.0f}".format(stats.median_order) }}</div>
+      </article>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-list" role="status">
+        {% for category, message in messages %}<p class="flash flash-{{ category }}">{{ message }}</p>{% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    <details class="panel add-panel">
+      <summary><span><strong>Add a transaction record</strong><small>Manually entered data is saved and included in analysis.</small></span><span class="add-symbol">＋</span></summary>
+      <form class="transaction-form" method="post" action="{{ url_for('analytics_add') }}">
+        <label>Product or service<input name="product_name" maxlength="180" required placeholder="e.g. Wheat, seed, or tractor rental"></label>
+        <label>Category<select name="category" required><option value="produce">Produce</option><option value="residue">Residue</option><option value="supply">Farm supplies</option><option value="machinery">Machinery</option><option value="transport">Transport</option></select></label>
+        <label>Region<input name="region" maxlength="100" placeholder="e.g. Punjab"></label>
+        <label>Quantity<input name="quantity" type="number" min="1" max="1000000" step="1" required value="1"></label>
+        <label>Unit price (₹)<input name="unit_price" type="number" min="0" max="100000000" step="0.01" required placeholder="0.00"></label>
+        <label>Status<select name="status"><option value="Requested">Requested</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></select></label>
+        <label>Date<input name="transaction_date" type="date"></label>
+        <div class="form-submit"><button type="submit" class="export-button">Save record</button></div>
+      </form>
+    </details>
+
+    <section class="analysis-grid">
+      <article class="panel trend-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">COMPLETED TRANSACTIONS</p><h2>Order value over time</h2></div>
+          <span class="unit-label">INR</span>
+        </div>
+        {% if trend %}
+        <div class="bar-chart" role="img" aria-label="Monthly completed order value bar chart">
+          {% for month in trend %}
+          <div class="bar-column" title="{{ month.label }}: ₹{{ '{:,.2f}'.format(month.value) }}">
+            <span class="bar-value">{% if month.value %}₹{{ "{:,.0f}".format(month.value) }}{% endif %}</span>
+            <div class="bar-track"><div class="bar-fill" style="height: {{ month.height }}%"></div></div>
+            <span class="bar-label">{{ month.label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}<p class="empty-state">No completed transactions in this range yet.</p>{% endif %}
+        <p class="chart-caption">Values use records marked Completed. Pending and cancelled requests are excluded.</p>
+      </article>
+
+      <article class="panel category-panel">
+        <div class="panel-heading"><div><p class="eyebrow">PRODUCT MIX</p><h2>Value by category</h2></div></div>
+        {% if categories %}
+        <div class="category-list">
+          {% for category in categories %}
+          <div class="category-row">
+            <div class="category-meta"><strong>{{ category.name }}</strong><span>{{ category.orders }} orders · ₹{{ "{:,.0f}".format(category.value) }}</span></div>
+            <div class="category-track"><div class="category-fill" style="width: {{ category.share }}%"></div></div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}<p class="empty-state">No completed transactions in this range yet.</p>{% endif %}
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">BEST PERFORMERS</p><h2>Top products</h2></div></div>
+        {% if top_products %}
+        <div class="table-wrap">
+          <table><thead><tr><th>Product</th><th>Orders</th><th>Completed value</th></tr></thead>
+          <tbody>{% for product in top_products %}<tr><td><strong>{{ product.name }}</strong><small>{{ product.category }}</small></td><td>{{ product.orders }}</td><td>₹{{ "{:,.0f}".format(product.value) }}</td></tr>{% endfor %}</tbody></table>
+        </div>
+        {% else %}<p class="empty-state">No completed transactions in this range yet.</p>{% endif %}
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">REGIONAL DEMAND</p><h2>Top regions</h2></div></div>
+        {% if regions %}
+        <div class="table-wrap">
+          <table><thead><tr><th>Region</th><th>Orders</th><th>Completed value</th></tr></thead>
+          <tbody>{% for region in regions %}<tr><td>{{ region.name }}</td><td>{{ region.orders }}</td><td>₹{{ "{:,.0f}".format(region.value) }}</td></tr>{% endfor %}</tbody></table>
+        </div>
+        {% else %}<p class="empty-state">No regional sales recorded in this range yet.</p>{% endif %}
+      </article>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-heading records-heading">
+        <div><p class="eyebrow">TRANSACTION LEDGER</p><h2>Latest records</h2></div>
+        <span class="unit-label">{{ records|length }} records in selected range</span>
+      </div>
+      {% if latest %}
+      <div class="table-wrap">
+        <table class="records-table">
+          <thead><tr><th>Date (UTC)</th><th>Receipt</th><th>Product</th><th>Category</th><th>Region</th><th>Qty</th><th>Order value</th><th>Status</th><th>Source</th></tr></thead>
+          <tbody>
+          {% for record in latest %}
+          <tr>
+            <td>{{ record.date.strftime('%d %b %Y') }}</td>
+            <td class="receipt">{{ record.receipt }}</td>
+            <td>{{ record.product }}</td><td>{{ record.category }}</td><td>{{ record.region }}</td><td>{{ record.quantity }}</td>
+            <td>₹{{ "{:,.2f}".format(record.value) }}</td>
+            <td><span class="status status-{{ record.status|lower|replace(' ', '-') }}">{{ record.status }}</span></td>
+            <td><span class="source source-{{ 'sample' if record.is_sample else 'live' }}">{{ 'Sample' if record.is_sample else 'Live' }}</span></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-caption">Showing the 12 most recent line items. Download the CSV for every record in this date range.</p>
+      {% else %}<p class="empty-state">There are no transactions in this range.</p>{% endif %}
+    </section>
+    <footer class="page-footer">AgriTrust · Synthetic data is for demonstration and product analysis only.</footer>
+  </main>
+</body>
+</html>

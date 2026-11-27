@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-text="dashboard_title">AgriTrust Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link rel="stylesheet" href="static/dash.css"/>
+</head>
+<body class="dashboard-body">
+<div class="page-wrapper">
+
+<header class="main-header">
+    <div class="header-content-wrapper">
+        <div class="header-logo-container">
+            <div class="logo-icon-wrapper">
+                <img src="static/logo.png" alt="AgriTrust Logo" class="logo-image"/>
+            </div>
+        </div>
+        <div class="header-icons">
+            <button class="icon-button" data-text="notifications_btn">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="icon-button" data-text="settings_btn">
+                <span class="material-symbols-outlined">settings</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="main-content-wrapper">
+    <div class="dashboard-content">
+        <h2 class="main-heading" data-text="welcome_heading">Welcome to the AgriTrust Dashboard</h2>
+        <p class="sub-heading" data-text="dashboard_subheading">Your central hub for all agricultural transactions.</p>
+        
+        <div class="action-grid">
+            <a class="group action-card secondary-action-card" href="{{ url_for('sell') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">agriculture</span>
+                </div>
+                <h3 class="action-title-secondary" data-text="sell_crops">Sell Crops</h3>
+            </a>
+
+            <a class="group action-card secondary-action-card" href="{{ url_for('sell_residue') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">shopping_cart</span>
+                </div>
+                <h3 class="action-title-secondary" data-text="sell_residues">Sell Residues</h3>
+            </a>
+
+            <a class="group action-card secondary-action-card" href="{{ url_for('rent_machines') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">construction</span>
+                </div>
+                <h3 class="action-title-secondary" data-text="rent_machinery">Rent Machinery</h3>
+            </a>
+
+            <a class="group action-card secondary-action-card secondary-wide-card" href="{{ url_for('buy_supplies') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">grass</span>
+                </div>
+                <h3 class="action-title-secondary" data-text="buy_supplies">Buy Supplies</h3>
+            </a>
+
+            <a class="group action-card secondary-action-card" href="{{ url_for('sell_transport') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">local_shipping</span>
+                </div>
+                <h3 class="action-title-secondary">List Transport Services</h3>
+            </a>
+
+            <a class="group action-card secondary-action-card" href="{{ url_for('analytics') }}">
+                <div class="action-icon-circle">
+                    <span class="material-symbols-outlined action-icon">query_stats</span>
+                </div>
+                <h3 class="action-title-secondary">Transaction Analytics</h3>
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-content-wrapper">
+        <div class="footer-bottom">
+            <p class="footer-copyright" data-text="footer_copy">© 2024 AgriTrust. All rights reserved.</p>
+            <div class="footer-links">
+                <a class="footer-link" href="#" data-text="footer_terms">Terms of Service</a>
+                <a class="footer-link" href="#" data-text="footer_privacy">Privacy Policy</a>
+                <a class="footer-link" href="#" data-text="footer_contact">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+</body>
+</html>

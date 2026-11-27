@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-text="landing_title">AgriTrust - Empowering Indian Farmers</title>
+
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+
+<link href="https://fonts.googleapis.com/css2?display=swap&family=Public+Sans:wght@400;500;700;900" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<link rel="stylesheet" href="static/landing.css"/>
+</head>
+
+<body class="dashboard-body">
+<div class="page-wrapper">
+
+<header class="main-header">
+    <div class="header-container">
+        <div class="header-logo-container">
+            <img src="static/logo.png" alt="AgriTrust Logo" class="header-logo-img"/>
+        </div>
+
+        <nav class="main-nav">
+            <a class="nav-link nav-home-link" href="{{ url_for('home') }}" data-text="nav_home">Home</a>
+            <a class="nav-link analytics-nav-link" href="{{ url_for('analytics') }}" data-text="nav_analytics">Analytics</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="icon-button notification-button">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-content-wrapper">
+        <h1 class="hero-title" data-text="landing_hero_title3">Empowering Indian Farmers</h1>
+        <p class="hero-subtitle" data-text="landing_hero_subtitle1">
+            AgriTrust: Your digital ecosystem for transparency, sustainability, and innovation in agriculture.
+        </p>
+    </div>
+</section>
+
+<!-- OPTIONS -->
+<section class="selection-section">
+    <div class="selection-wrapper">
+        <div class="action-grid">
+
+            <!-- Farmer Card -->
+            <div class="action-card action-card-farmer">
+                <div class="icon-box icon-box-primary">
+                    <span class="material-symbols-outlined action-icon">agriculture</span>
+                </div>
+                <h2 class="card-title" data-text="landing_farmer_title">I am a Farmer</h2>
+                <p class="card-description" data-text="landing_farmer_desc">
+                    Sell Produce, Access Resources, Connect with Community.
+                </p>
+                <a class="card-btn btn-primary" href="{{ url_for('dash') }}" data-text="landing_farmer_btn">Farmer Dashboard</a>
+            </div>
+
+            <!-- User / Buyer Card -->
+            <div class="action-card action-card-buyer">
+                <div class="icon-box icon-box-secondary">
+                    <span class="material-symbols-outlined action-icon">shopping_cart</span>
+                </div>
+                <h2 class="card-title" data-text="landing_buyer_title">I am a User / Buyer</h2>
+                <p class="card-description" data-text="landing_buyer_desc">
+                    Buy Produce, Source Residue, Purchase Farm Supplies.
+                </p>
+                <a class="card-btn btn-secondary" href="{{ url_for('dashuser') }}" data-text="landing_buyer_btn">Explore Market</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="footer-wrapper">
+
+        <nav aria-label="Footer" class="footer-nav">
+            <div class="footer-nav-item">
+                <a class="footer-link" href="#" data-text="footer_privacy">Privacy Policy</a>
+            </div>
+            <div class="footer-nav-item">
+                <a class="footer-link" href="#" data-text="footer_terms">Terms of Service</a>
+            </div>
+        </nav>
+
+        <p class="footer-copyright-text"
+           data-text="footer_copy">© 2024 AgriTrust. All rights reserved.</p>
+    </div>
+</footer>
+
+</div>
+
+<!-- Language Script -->
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+
+</body>
+</html>

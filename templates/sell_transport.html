@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell Transport / Supplies | AgriTrust</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {font-family: 'Public Sans', sans-serif; margin:0; background:#f4f4f7;}
+    .page-wrapper {max-width:1200px; margin:auto; padding:20px;}
+    header {display:flex; justify-content:space-between; align-items:center; background:#1f7a1f; padding:10px 20px; color:white; border-radius:5px;}
+    header img {height:50px;}
+    header .header-nav a {margin-left:20px; color:white; text-decoration:none; font-weight:600;}
+    h1, h2 {color:#1f7a1f;}
+    .form-container {background:white; padding:20px; border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-top:20px;}
+    .form-group {margin-bottom:15px;}
+    .form-group label {display:block; margin-bottom:5px; font-weight:600;}
+    .form-group input, .form-group select {width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;}
+    .btn-primary {background:#1f7a1f; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-weight:600;}
+    .btn-primary:hover {background:#145214;}
+    .listing-table {width:100%; border-collapse: collapse; margin-top:20px;}
+    .listing-table th, .listing-table td {border:1px solid #ccc; padding:10px; text-align:left;}
+    .listing-table th {background:#e0f0e0;}
+    .action-icons span {cursor:pointer; margin-right:10px;}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="AgriTrust Logo">
+        </div>
+        <nav class="header-nav">
+            <a href="{{ url_for('dashuser') }}">Dashboard</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            <a href="{{ url_for('buy_residues') }}">Residue</a>
+        </nav>
+    </header>
+
+    <h1>Sell Transport / Supplies</h1>
+    <p>Add and manage your transport services for farmers and buyers.</p>
+
+    <div class="form-container">
+        <h2>Add Transport Listing</h2>
+        <form id="transportForm">
+            <div class="form-group">
+                <label for="serviceName">Service / Vehicle Name</label>
+                <input type="text" id="serviceName" name="serviceName" placeholder="E.g., Mini Truck, Tractor Trailer" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Transport Type</label>
+                <select id="type" name="type" required>
+                    <option value="">Select Type</option>
+                    <option value="Vehicle">Vehicle</option>
+                    <option value="Logistics">Logistics Service</option>
+                    <option value="Storage">Storage / Cold Storage</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="capacity">Capacity / Load Limit</label>
+                <input type="text" id="capacity" name="capacity" placeholder="E.g., 2 Tons, 500 kg" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price (per day / km)</label>
+                <input type="text" id="price" name="price" placeholder="E.g., ₹500 per day" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="City / Area" required>
+            </div>
+            <button type="submit" class="btn-primary">Add Listing</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <h2>My Transport Listings</h2>
+        <table class="listing-table" id="listingTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Listings will appear here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let transports = {{ transports|tojson }};
+    const form = document.getElementById('transportForm');
+    const tableBody = document.getElementById('listingTable').querySelector('tbody');
+
+    function renderTransports() {
+        tableBody.replaceChildren();
+        transports.forEach(item => {
+            const row = document.createElement('tr');
+            [item.serviceName, item.type, item.capacity, item.price, item.location].forEach(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value || '—';
+                row.appendChild(cell);
+            });
+            const actions = document.createElement('td');
+            actions.className = 'action-icons';
+            const edit = document.createElement('button');
+            edit.type = 'button';
+            edit.textContent = 'Edit';
+            edit.addEventListener('click', () => {
+                form.serviceName.value = item.serviceName || '';
+                form.type.value = item.type || '';
+                form.capacity.value = item.capacity || '';
+                form.price.value = item.price || '';
+                form.location.value = item.location || '';
+                form.dataset.editId = item.id;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.textContent = 'Delete';
+            remove.addEventListener('click', async () => {
+                const response = await fetch(`/api/listings/transport/${item.id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    transports = transports.filter(entry => entry.id !== item.id);
+                    renderTransports();
+                }
+            });
+            actions.append(edit, remove);
+            row.appendChild(actions);
+            tableBody.appendChild(row);
+        });
+    }
+
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const data = new FormData(form);
+        if (form.dataset.editId) data.set('id', form.dataset.editId);
+        const response = await fetch('/api/listings/transport', { method: 'POST', body: data });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            alert(result.error || 'Could not save this transport listing.');
+            return;
+        }
+        transports = transports.filter(item => item.id !== result.listing.id);
+        transports.unshift(result.listing);
+        form.reset();
+        delete form.dataset.editId;
+        renderTransports();
+    });
+
+    renderTransports();
+</script>
+</body>
+</html>

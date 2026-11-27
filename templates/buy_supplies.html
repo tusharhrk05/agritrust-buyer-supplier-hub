@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Supplies | AgriTrust</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f0f4f8;
+}
+.page-wrapper { max-width: 1200px; margin: auto; padding: 20px; }
+header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+header img { height: 50px; }
+h2 { color: #333; margin-bottom: 20px; }
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s;
+  position: relative;
+}
+.product-card:hover { transform: translateY(-5px); }
+.product-card img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+.product-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: #333; }
+.product-card p { font-size: 0.9rem; color: #555; margin-bottom: 5px; }
+.product-card .price { font-weight: 600; color: #4CAF50; margin-bottom: 10px; }
+.product-card button {
+  padding: 10px 15px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.product-card button:hover {
+  background: #45a049;
+}
+.success-overlay {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(76,175,80,0.9);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+.category-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #eee;
+  transition: 0.3s;
+}
+.category-buttons button.active, .category-buttons button:hover {
+  background: #4CAF50;
+  color: #fff;
+}
+
+/* ---------------- CART DRAWER ---------------- */
+#cartDrawer {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+  padding: 20px;
+  transition: 0.35s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+#cartDrawer.open {
+  right: 0;
+}
+
+.cart-header {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.close-cart {
+  cursor: pointer;
+  font-size: 1.4rem;
+}
+
+.cart-total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+  <header>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="AgriTrust Logo">
+    <h2 data-text="heading_title">Buy Supplies</h2>
+  </header>
+
+  <div class="category-buttons">
+    <button class="active" data-cat="all" data-text="cat_all">All</button>
+    <button data-cat="seeds" data-text="cat_seeds">Seeds</button>
+    <button data-cat="fertilizers" data-text="cat_fertilizers">Fertilizers</button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer">
+  <div class="cart-header">
+    Cart
+    <span class="close-cart">&times;</span>
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-total">Total: ₹<span id="cartTotal">0</span></div>
+  <button class="checkout-btn">Checkout</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+
+<script>
+let cart = [];
+
+// Open cart drawer
+function openCart() {
+  document.getElementById("cartDrawer").classList.add("open");
+}
+
+// Close cart drawer
+document.querySelector(".close-cart").addEventListener("click", () => {
+  document.getElementById("cartDrawer").classList.remove("open");
+});
+
+// Update cart HTML
+function renderCart() {
+  const container = document.getElementById("cartItems");
+  const totalBox = document.getElementById("cartTotal");
+
+  container.replaceChildren();
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price * item.qty;
+    const row = document.createElement("div");
+    row.className = "cart-item";
+    const label = document.createElement("div");
+    const name = document.createElement("strong");
+    name.textContent = item.name;
+    const details = document.createElement("div");
+    details.textContent = `₹${item.price} × ${item.qty}`;
+    label.append(name, details);
+    const remove = document.createElement("button");
+    remove.textContent = "Remove";
+    remove.style.cssText = "border:0;background:red;color:#fff;padding:5px 8px;border-radius:5px;cursor:pointer";
+    remove.addEventListener("click", () => removeItem(item.id));
+    row.append(label, remove);
+    container.appendChild(row);
+  });
+
+  totalBox.innerText = total;
+}
+
+function removeItem(id) {
+  cart = cart.filter(item => item.id !== id);
+  renderCart();
+}
+
+document.querySelector(".checkout-btn").addEventListener("click", async () => {
+  if (!cart.length) return alert("Your cart is empty.");
+  const response = await fetch("/checkout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: cart })
+  });
+  const result = await response.json();
+  if (!response.ok || !result.success) return alert(result.error || "Checkout could not be completed.");
+  alert(`Order request ${result.receipt} was saved. Payment and delivery can be arranged directly.`);
+  cart = [];
+  renderCart();
+  document.getElementById("cartDrawer").classList.remove("open");
+});
+
+// Fetch & render products
+fetch('/static/supplies.json')
+  .then(res => res.json())
+  .then(stockProducts => {
+
+    const farmerProducts = {{ supply_listings|tojson }}.map(item => ({
+      id: `listing-${item.id}`,
+      name: item.name,
+      category: (item.category || 'other').toLowerCase(),
+      price: Number(item.price) || 0,
+      description: `${item.qty || ''} available${item.desc ? ` — ${item.desc}` : ''}`,
+      image: item.image_url || '/static/logo.png'
+    }));
+    const products = [...stockProducts, ...farmerProducts];
+
+    const grid = document.getElementById('productGrid');
+    let currentCategory = 'all';
+    let currentLang = 'en';
+
+    function renderProducts(cat){
+      grid.innerHTML = '';
+
+      const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+
+      filtered.forEach(p => {
+        const name = translations[currentLang]?.products[p.name] || p.name;
+        const desc = translations[currentLang]?.products[p.name + '_desc'] || p.description;
+        const priceUnit = translations[currentLang]?.products['price_unit'] || 'per unit';
+        const btnText = translations[currentLang]?.products['btn_add'] || 'Add to Cart';
+        const addedText = translations[currentLang]?.products['added'] || 'Added!';
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${name}</h3>
+          <p class="price">₹${p.price} ${priceUnit}</p>
+          <p>${desc}</p>
+          <button class="buy-btn" data-id="${p.id}">${btnText}</button>
+          <div class="success-overlay">${addedText}</div>
+        `;
+        grid.appendChild(card);
+
+        const btn = card.querySelector('.buy-btn');
+        const overlay = card.querySelector('.success-overlay');
+
+        btn.addEventListener('click', () => {
+          overlay.style.display = 'block';
+          setTimeout(()=> overlay.style.display = 'none', 1500);
+
+          // CART LOGIC
+          let exists = cart.find(item => item.id === p.id);
+
+          if (exists) {
+            exists.qty++;
+          } else {
+            cart.push({
+              id: p.id,
+              name: name,
+              price: p.price,
+              category: 'supply',
+              qty: 1
+            });
+          }
+
+          renderCart();
+          openCart();
+        });
+
+      });
+    }
+
+    renderProducts(currentCategory);
+
+    document.querySelectorAll('.category-buttons button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-buttons button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        renderProducts(currentCategory);
+      });
+    });
+
+    window.translatePage = function(lang){
+      currentLang = lang;
+      document.querySelectorAll('[data-text]').forEach(el=>{
+        const key = el.getAttribute('data-text');
+        el.innerText = translations[lang]?.products[key] || el.innerText;
+      });
+      renderProducts(currentCategory);
+    }
+
+  })
+  .catch(err => console.error("Failed to load JSON:", err));
+</script>
+
+</body>
+</html>

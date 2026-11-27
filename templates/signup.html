@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-text="title">Join AgriTrust</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { width: 100%; max-width: 400px; padding: 20px; }
+        .login-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; text-align: center; }
+        .login-card .logo img { width: 80px; margin-bottom: 15px; }
+        .login-card h2 { font-weight: 600; margin-bottom: 5px; color: #333; }
+        .login-card p.subtitle { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #333; font-weight: 500; }
+        .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 0.95rem; }
+        .login-button { width: 100%; padding: 12px; background: #4CAF50; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        .login-button:hover { background: #45a049; }
+        .signup-link { margin-top: 15px; font-size: 0.85rem; color: #666; }
+        .signup-link a { color: #4CAF50; text-decoration: none; font-weight: 500; }
+        .message { margin-top: 10px; font-size: 0.85rem; color: red; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="login-card">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}<ul class="flash-messages">{% for category, message in messages %}<li class="{{ category }}">{{ message }}</li>{% endfor %}</ul>{% endif %}
+        {% endwith %}
+
+        <div class="logo">
+            <img src="static/logo.png" alt="AgriTrust Logo">
+        </div>
+
+        <!-- TEXT READY FOR TRANSLATION -->
+        <h2 data-text="title">Join AgriTrust</h2>
+        <p class="subtitle" data-text="subtitle">Enter your details to start</p>
+
+        <form id="joinForm" method="POST" action="/signup">
+
+            <div class="form-group">
+                <label for="name" data-text="label_name">Full Name</label>
+<input type="text" id="name" name="name" required
+       placeholder="" 
+       data-i18n-placeholder="placeholder_name">
+
+            </div>
+
+            <div class="form-group">
+                <label for="email" data-text="label_email">Email</label>
+                <input 
+                    type="email" id="email" name="email" 
+                    placeholder=""
+                    data-placeholder="placeholder_email"
+                    required>
+            </div>
+
+            <button type="submit" class="login-button" data-text="send_btn">
+                Send OTP
+            </button>
+        </form>
+
+        <div class="signup-link">
+            <p>
+                <span data-text="already">Already have an account?</span>
+                <a href="/login" data-text="login_link">Log In</a>
+            </p>
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+</div>
+
+<!-- YOUR VALIDATION SCRIPT -->
+<script>
+    const form = document.getElementById('joinForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+        if (!form.name.value || !form.email.value) {
+            e.preventDefault();
+            message.textContent = "Please fill in all required fields.";
+        } else {
+            message.textContent = "";
+        }
+    });
+</script>
+
+<!-- LANGUAGE TRANSLATION SCRIPT -->
+
+<script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+</body>
+</html>
