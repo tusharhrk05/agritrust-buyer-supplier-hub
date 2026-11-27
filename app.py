@@ -30,7 +30,11 @@ if not app.secret_key:
 
 database_url = os.environ.get("DATABASE_URL", "sqlite:///users.db")
 if database_url.startswith("postgres://"):
-    database_url = "postgresql://" + database_url.removeprefix("postgres://")
+    database_url = "postgresql+psycopg2://" + database_url.removeprefix("postgres://")
+elif database_url.startswith("postgresql://"):
+    # SQLAlchemy 2.1 defaults postgresql:// to psycopg 3. This project installs
+    # psycopg2-binary, so select that driver explicitly for Render's DB URL.
+    database_url = "postgresql+psycopg2://" + database_url.removeprefix("postgresql://")
 
 app.config.update(
     SQLALCHEMY_DATABASE_URI=database_url,
